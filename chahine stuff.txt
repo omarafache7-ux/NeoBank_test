@@ -1,0 +1,1 @@
+can i put customerSchema and employee schema in userSchema
