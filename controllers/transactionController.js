@@ -128,7 +128,7 @@ exports.createTransaction = async (req, res) => {
         return res.status(400).json({ status: 'fail', message: 'beneficiaryAccountNumber is required for a transfer.' });
       }
       const beneficiary = await Beneficiary.findOne({
-        customerId: sourceAccount.customerId,
+        customerId: sourceAccount.customer,
         beneficiaryAccountNumber,
         status: 'approved',
       }).session(session);

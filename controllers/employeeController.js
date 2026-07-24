@@ -1,4 +1,5 @@
 const Employee = require("../models/employeeSchema");
+const User = require("../models/userSchema")
 
 // createEmployee can done by the admin and the branch manager
 exports.createEmployee = async (req, res) => {

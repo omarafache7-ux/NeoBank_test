@@ -1,3 +1,4 @@
+const User = require("../models/userSchema");
 const Customer = require("../models/customerSchema");
 
 // restricted to admin and teller
@@ -12,7 +13,7 @@ exports.createCustomer = async (req, res) => {
       nationalId,
       dateOfBirth,
       phone,
-      adress,
+      address,
     } = req.body;
     const existingUser = await User.findOne({
       $or: [{ email }, { userName }],
@@ -47,7 +48,7 @@ exports.createCustomer = async (req, res) => {
       nationalId,
       dateOfBirth,
       phone,
-      adress,
+      address,
     });
 
     res.status(201).json({

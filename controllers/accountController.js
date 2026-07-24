@@ -29,7 +29,7 @@ exports.getAllAccounts = async (req, res) => {
 exports.getAccount = async (req, res) => {
   try {
     const account = await Account.findById(req.params.id).populate(
-      "customerId",
+      "customer",
       "firstName lastName email phone status -password"
     );
 
@@ -48,8 +48,8 @@ exports.createAccount = async (req, res) => {
   try {
     const { customerId, type, currency, balance, accountGroup } = req.body;
 
-    const customer = await Customer.findById(customerId);
-    if (!customer) {
+    const customerCheck = await Customer.findById(customerId);
+    if (!customerCheck) {
       return res.status(400).json({
         status: "fail",
         message: "Customer does not exist. Cannot create account.",
@@ -57,14 +57,12 @@ exports.createAccount = async (req, res) => {
     }
     
    const existingAccount = await Account.findOne({
-      customerId,
-      type,
-      currency,
+      customerId
     });
     if (existingAccount) {
   return res.status(400).json({
     status: "fail",
-    message: "An account with this type and currency already exists for this customer.",
+    message: "An account already exists for this customer.",
   });
 }
     const initialBalance = balance !== undefined ? balance : "0.00";
@@ -86,7 +84,7 @@ exports.createAccount = async (req, res) => {
         accountNumber: account.accountNumber,
         type: account.type,
         currency: account.currency,
-        customerId: account.customerId,
+        customerId: account.customer,
       },
     }).catch((err) => console.error("Audit log failed:", err.message));
 

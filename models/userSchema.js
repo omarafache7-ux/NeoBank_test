@@ -36,7 +36,6 @@ const userSchema = new Schema(
     //wont be saved in the backend just for checking
     passwordConfirm: {
       type: String,
-      required: true,
       trim: true,
       maxLength: 14,
     },
@@ -47,15 +46,14 @@ const userSchema = new Schema(
       enum: [
         "customer",
         "employee",
-        
       ],
-      status: {
-        type: String,
-        enum: ["active", "suspended", "locked"],
-        default: "active",
-      },
-      lastLoginAt: Date,
     },
+    status: {
+      type: String,
+      enum: ["active", "suspended", "locked"],
+      default: "active",
+    },
+    lastLoginAt: Date,
   },
   { timestamps: true },
 );

@@ -19,20 +19,20 @@ const auditLogRoutes = require('./routes/auditLogRoutes');
 
 app.use(express.json());
 
-router.use('/auth', authRoutes);
-router.use('/customers', customerRoutes);
-router.use('/employees', employeeRoutes);
-router.use('/branches', branchRoutes);
-router.use('/accounts', accountRoutes);
-router.use('/transactions', transactionRoutes);
-router.use('/loans', loanRoutes);
-router.use('/beneficiaries', beneficiaryRoutes);
-router.use('/cards', cardRoutes);
-router.use('/notifications', notificationRoutes);
-router.use('/teams', teamRoutes);
-router.use('/system-settings', systemSettingRoutes);
-router.use('/fraud-alerts', fraudAlertRoutes);
-router.use('/audit-logs', auditLogRoutes);
+app.use('/api/auth', authRoutes);
+app.use('/api/customer', customerRoutes);
+app.use('/api/employees', employeeRoutes);
+app.use('/api/branches', branchRoutes);
+app.use('/api/accounts', accountRoutes);
+app.use('/api/transactions', transactionRoutes);
+app.use('/api/loans', loanRoutes);
+app.use('/api/beneficiaries', beneficiaryRoutes);
+app.use('/api/cards', cardRoutes);
+app.use('/api/notifications', notificationRoutes);
+app.use('/api/teams', teamRoutes);
+app.use('/api/system-settings', systemSettingRoutes);
+app.use('/api/fraud-alerts', fraudAlertRoutes);
+app.use('/api/audit-logs', auditLogRoutes);
 
 
 connectDB();

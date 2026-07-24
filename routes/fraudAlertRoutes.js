@@ -1,7 +1,7 @@
 const express = require('express');
-const { protect, restrictTo } = require('../middleware/auth');
+const { protect, restrictTo } = require('../middleware/authMiddleWare');
 const fraudAlertController = require('../controllers/fraudAlertController');
-const router = require('./transactionRoutes');
+const router = express.Router();
 
 router.use(protect);
 router.use(restrictTo('compliance_officer', 'admin')); // every route here is compliance-only

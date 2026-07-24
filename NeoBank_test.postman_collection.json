@@ -1,0 +1,1459 @@
+{
+  "info": {
+    "name": "NeoBank_test API",
+    "_postman_id": "c23f4d9d-5e6a-4c7a-8f7b-12a3456789ab",
+    "description": "Postman collection to test NeoBank_test API endpoints. Use the login request to set {{authToken}} and then run other protected requests.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "localhost", "type": "string" },
+    { "key": "port", "value": "3000", "type": "string" },
+    { "key": "authToken", "value": "", "type": "string" },
+    { "key": "customerId", "value": "", "type": "string" },
+    { "key": "employeeId", "value": "", "type": "string" },
+    { "key": "branchId", "value": "", "type": "string" },
+    { "key": "accountId", "value": "", "type": "string" },
+    { "key": "transactionId", "value": "", "type": "string" },
+    { "key": "loanId", "value": "", "type": "string" },
+    { "key": "beneficiaryId", "value": "", "type": "string" },
+    { "key": "cardId", "value": "", "type": "string" },
+    { "key": "notificationId", "value": "", "type": "string" },
+    { "key": "teamId", "value": "", "type": "string" },
+    { "key": "auditLogId", "value": "", "type": "string" },
+    { "key": "actorId", "value": "", "type": "string" },
+    { "key": "entityId", "value": "", "type": "string" },
+    { "key": "entityType", "value": "", "type": "string" }
+  ],
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Sign Up",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"firstName\": \"Alice\",\n  \"lastName\": \"Nguyen\",\n  \"userName\": \"alice1\",\n  \"email\": \"alice@example.com\",\n  \"password\": \"Password123!\",\n  \"passwordConfirm\": \"Password123!\",\n  \"nationalId\": \"NID123456\",\n  \"dateOfBirth\": \"1990-01-10\",\n  \"phone\": \"+1234567890\",\n  \"address\": {\n    \"country\": \"USA\",\n    \"city\": \"New York\",\n    \"street\": \"123 Main St\"\n  }\n}"
+            },
+            "url": {
+              "raw": "http://{{baseUrl}}:{{port}}/api/auth/users/signup",
+              "protocol": "http",
+              "host": ["{{baseUrl}}"],
+              "port": "{{port}}",
+              "path": ["api", "auth", "users", "signup"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"alice@example.com\",\n  \"password\": \"Password123!\"\n}"
+            },
+            "url": {
+              "raw": "http://{{baseUrl}}:{{port}}/api/auth/users/login",
+              "protocol": "http",
+              "host": ["{{baseUrl}}"],
+              "port": "{{port}}",
+              "path": ["api", "auth", "users", "login"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Customers",
+      "item": [
+        {
+          "name": "Create Customer",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"firstName\": \"John\",\n  \"lastName\": \"Doe\",\n  \"userName\": \"johndoe\",\n  \"email\": \"john.doe@example.com\",\n  \"password\": \"Secret123!\",\n  \"nationalId\": \"NID987654\",\n  \"dateOfBirth\": \"1985-08-20\",\n  \"phone\": \"+19876543210\",\n  \"adress\": {\n    \"country\": \"USA\",\n    \"city\": \"Seattle\",\n    \"street\": \"400 Pine St\"\n  }\n}"
+            },
+            "url": {
+              "raw": "http://{{baseUrl}}:{{port}}/api/customers/customers",
+              "protocol": "http",
+              "host": ["{{baseUrl}}"],
+              "port": "{{port}}",
+              "path": ["api", "customers", "customers"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Customers",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+            ],
+            "url": {
+              "raw": "http://{{baseUrl}}:{{port}}/api/customers/customers",
+              "protocol": "http",
+              "host": ["{{baseUrl}}"],
+              "port": "{{port}}",
+              "path": ["api", "customers", "customers"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Customer by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+            ],
+            "url": {
+              "raw": "http://{{baseUrl}}:{{port}}/api/customers/customers/{{customerId}}",
+              "protocol": "http",
+              "host": ["{{baseUrl}}"],
+              "port": "{{port}}",
+              "path": ["api", "customers", "customers", "{{customerId}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Customer",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"phone\": \"+12025550001\"\n}"
+            },
+            "url": {
+              "raw": "http://{{baseUrl}}:{{port}}/api/customers/customers/{{customerId}}",
+              "protocol": "http",
+              "host": ["{{baseUrl}}"],
+              "port": "{{port}}",
+              "path": ["api", "customers", "customers", "{{customerId}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update My Customer Profile",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"phone\": \"+12025550002\"\n}"
+            },
+            "url": {
+              "raw": "http://{{baseUrl}}:{{port}}/api/customers/me",
+              "protocol": "http",
+              "host": ["{{baseUrl}}"],
+              "port": "{{port}}",
+              "path": ["api", "customers", "me"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Employees",
+      "item": [
+        {
+          "name": "Create Employee",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"firstName\": \"Mark\",\n  \"lastName\": \"Smith\",\n  \"userName\": \"marksmith\",\n  \"email\": \"mark.smith@example.com\",\n  \"password\": \"Password123!\",\n  \"employeeId\": \"EMP1001\",\n  \"jobTitle\": \"Branch Manager\",\n  \"branchId\": \"{{branchId}}\",\n  \"teamId\": \"{{teamId}}\"\n}"
+            },
+            "url": {
+              "raw": "http://{{baseUrl}}:{{port}}/api/employees/employees",
+              "protocol": "http",
+              "host": ["{{baseUrl}}"],
+              "port": "{{port}}",
+              "path": ["api", "employees", "employees"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Employees",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+            ],
+            "url": {
+              "raw": "http://{{baseUrl}}:{{port}}/api/employees/employees",
+              "protocol": "http",
+              "host": ["{{baseUrl}}"],
+              "port": "{{port}}",
+              "path": ["api", "employees", "employees"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Employee by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+            ],
+            "url": {
+              "raw": "http://{{baseUrl}}:{{port}}/api/employees/employees/{{employeeId}}",
+              "protocol": "http",
+              "host": ["{{baseUrl}}"],
+              "port": "{{port}}",
+              "path": ["api", "employees", "employees", "{{employeeId}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Employee",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"jobTitle\": \"Senior Branch Manager\"\n}"
+            },
+            "url": {
+              "raw": "http://{{baseUrl}}:{{port}}/api/employees/employees/{{employeeId}}",
+              "protocol": "http",
+              "host": ["{{baseUrl}}"],
+              "port": "{{port}}",
+              "path": ["api", "employees", "employees", "{{employeeId}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Employee",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+            ],
+            "url": {
+              "raw": "http://{{baseUrl}}:{{port}}/api/employees/employees/{{employeeId}}",
+              "protocol": "http",
+              "host": ["{{baseUrl}}"],
+              "port": "{{port}}",
+              "path": ["api", "employees", "employees", "{{employeeId}}"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Branches",
+      "item": [
+        {
+          "name": "Create Branch",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Downtown Branch\",\n  \"code\": \"BR001\",\n  \"address\": {\n    \"country\": \"USA\",\n    \"city\": \"Chicago\",\n    \"street\": \"500 Lake Shore Dr\"\n  }\n}"
+            },
+            "url": {
+              "raw": "http://{{baseUrl}}:{{port}}/api/branches/branches",
+              "protocol": "http",
+              "host": ["{{baseUrl}}"],
+              "port": "{{port}}",
+              "path": ["api", "branches", "branches"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Branches",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+            ],
+            "url": {
+              "raw": "http://{{baseUrl}}:{{port}}/api/branches/branches",
+              "protocol": "http",
+              "host": ["{{baseUrl}}"],
+              "port": "{{port}}",
+              "path": ["api", "branches", "branches"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Branch by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+            ],
+            "url": {
+              "raw": "http://{{baseUrl}}:{{port}}/api/branches/branches/{{branchId}}",
+              "protocol": "http",
+              "host": ["{{baseUrl}}"],
+              "port": "{{port}}",
+              "path": ["api", "branches", "branches", "{{branchId}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Branch",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"BR001A\"\n}"
+            },
+            "url": {
+              "raw": "http://{{baseUrl}}:{{port}}/api/branches/branches/{{branchId}}",
+              "protocol": "http",
+              "host": ["{{baseUrl}}"],
+              "port": "{{port}}",
+              "path": ["api", "branches", "branches", "{{branchId}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Branch",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+            ],
+            "url": {
+              "raw": "http://{{baseUrl}}:{{port}}/api/branches/branches/{{branchId}}",
+              "protocol": "http",
+              "host": ["{{baseUrl}}"],
+              "port": "{{port}}",
+              "path": ["api", "branches", "branches", "{{branchId}}"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Accounts",
+      "item": [
+        {
+          "name": "Create Account",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"customerId\": \"{{customerId}}\",\n  \"type\": \"checking\",\n  \"currency\": \"USD\",\n  \"balance\": 1000.0,\n  \"accountGroup\": \"personal\"\n}"
+            },
+            "url": {
+              "raw": "http://{{baseUrl}}:{{port}}/api/accounts/accounts",
+              "protocol": "http",
+              "host": ["{{baseUrl}}"],
+              "port": "{{port}}",
+              "path": ["api", "accounts", "accounts"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Accounts",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+            ],
+            "url": {
+              "raw": "http://{{baseUrl}}:{{port}}/api/accounts/accounts",
+              "protocol": "http",
+              "host": ["{{baseUrl}}"],
+              "port": "{{port}}",
+              "path": ["api", "accounts", "accounts"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Account by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+            ],
+            "url": {
+              "raw": "http://{{baseUrl}}:{{port}}/api/accounts/accounts/{{accountId}}",
+              "protocol": "http",
+              "host": ["{{baseUrl}}"],
+              "port": "{{port}}",
+              "path": ["api", "accounts", "accounts", "{{accountId}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Account",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"accountGroup\": \"business\"\n}"
+            },
+            "url": {
+              "raw": "http://{{baseUrl}}:{{port}}/api/accounts/accounts/{{accountId}}",
+              "protocol": "http",
+              "host": ["{{baseUrl}}"],
+              "port": "{{port}}",
+              "path": ["api", "accounts", "accounts", "{{accountId}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Account",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+            ],
+            "url": {
+              "raw": "http://{{baseUrl}}:{{port}}/api/accounts/accounts/{{accountId}}",
+              "protocol": "http",
+              "host": ["{{baseUrl}}"],
+              "port": "{{port}}",
+              "path": ["api", "accounts", "accounts", "{{accountId}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Deposit to Account",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"amount\": 250.0,\n  \"currency\": \"USD\"\n}"
+            },
+            "url": {
+              "raw": "http://{{baseUrl}}:{{port}}/api/accounts/accounts/{{accountId}}/deposit",
+              "protocol": "http",
+              "host": ["{{baseUrl}}"],
+              "port": "{{port}}",
+              "path": ["api", "accounts", "accounts", "{{accountId}}", "deposit"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Withdraw from Account",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"amount\": 100.0,\n  \"currency\": \"USD\"\n}"
+            },
+            "url": {
+              "raw": "http://{{baseUrl}}:{{port}}/api/accounts/accounts/{{accountId}}/withdraw",
+              "protocol": "http",
+              "host": ["{{baseUrl}}"],
+              "port": "{{port}}",
+              "path": ["api", "accounts", "accounts", "{{accountId}}", "withdraw"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Transactions",
+      "item": [
+        {
+          "name": "Create Transaction",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"type\": \"transfer\",\n  \"fromAccountId\": \"{{accountId}}\",\n  \"toAccountId\": \"{{accountId}}\",\n  \"amount\": 50.0,\n  \"currency\": \"USD\",\n  \"beneficiaryAccountNumber\": \"1234567890\"\n}"
+            },
+            "url": {
+              "raw": "http://{{baseUrl}}:{{port}}/api/transactions/transactions",
+              "protocol": "http",
+              "host": ["{{baseUrl}}"],
+              "port": "{{port}}",
+              "path": ["api", "transactions", "transactions"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Transactions",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+            ],
+            "url": {
+              "raw": "http://{{baseUrl}}:{{port}}/api/transactions/transactions",
+              "protocol": "http",
+              "host": ["{{baseUrl}}"],
+              "port": "{{port}}",
+              "path": ["api", "transactions", "transactions"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Transaction by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+            ],
+            "url": {
+              "raw": "http://{{baseUrl}}:{{port}}/api/transactions/transactions/{{transactionId}}",
+              "protocol": "http",
+              "host": ["{{baseUrl}}"],
+              "port": "{{port}}",
+              "path": ["api", "transactions", "transactions", "{{transactionId}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Approve Transaction",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+            ],
+            "url": {
+              "raw": "http://{{baseUrl}}:{{port}}/api/transactions/transactions/{{transactionId}}/approve",
+              "protocol": "http",
+              "host": ["{{baseUrl}}"],
+              "port": "{{port}}",
+              "path": ["api", "transactions", "transactions", "{{transactionId}}", "approve"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Loans",
+      "item": [
+        {
+          "name": "Create Loan",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"customerId\": \"{{customerId}}\",\n  \"principal\": 5000,\n  \"interestRate\": 5.5,\n  \"termMonths\": 24\n}"
+            },
+            "url": {
+              "raw": "http://{{baseUrl}}:{{port}}/api/loans/loans",
+              "protocol": "http",
+              "host": ["{{baseUrl}}"],
+              "port": "{{port}}",
+              "path": ["api", "loans", "loans"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Loans",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+            ],
+            "url": {
+              "raw": "http://{{baseUrl}}:{{port}}/api/loans/loans",
+              "protocol": "http",
+              "host": ["{{baseUrl}}"],
+              "port": "{{port}}",
+              "path": ["api", "loans", "loans"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Loan by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+            ],
+            "url": {
+              "raw": "http://{{baseUrl}}:{{port}}/api/loans/loans/{{loanId}}",
+              "protocol": "http",
+              "host": ["{{baseUrl}}"],
+              "port": "{{port}}",
+              "path": ["api", "loans", "loans", "{{loanId}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Loan",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"termMonths\": 36\n}"
+            },
+            "url": {
+              "raw": "http://{{baseUrl}}:{{port}}/api/loans/loans/{{loanId}}",
+              "protocol": "http",
+              "host": ["{{baseUrl}}"],
+              "port": "{{port}}",
+              "path": ["api", "loans", "loans", "{{loanId}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Loan Status",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"approved\"\n}"
+            },
+            "url": {
+              "raw": "http://{{baseUrl}}:{{port}}/api/loans/loans/{{loanId}}/status",
+              "protocol": "http",
+              "host": ["{{baseUrl}}"],
+              "port": "{{port}}",
+              "path": ["api", "loans", "loans", "{{loanId}}", "status"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Loan",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+            ],
+            "url": {
+              "raw": "http://{{baseUrl}}:{{port}}/api/loans/loans/{{loanId}}",
+              "protocol": "http",
+              "host": ["{{baseUrl}}"],
+              "port": "{{port}}",
+              "path": ["api", "loans", "loans", "{{loanId}}"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Beneficiaries",
+      "item": [
+        {
+          "name": "Create Beneficiary",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"customerId\": \"{{customerId}}\",\n  \"beneficiaryAccountNumber\": \"9876543210\",\n  \"beneficiaryName\": \"Jane Doe\",\n  \"bankName\": \"NeoBank\",\n  \"status\": \"pending\"\n}"
+            },
+            "url": {
+              "raw": "http://{{baseUrl}}:{{port}}/api/beneficiaries/beneficiaries",
+              "protocol": "http",
+              "host": ["{{baseUrl}}"],
+              "port": "{{port}}",
+              "path": ["api", "beneficiaries", "beneficiaries"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Beneficiaries",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+            ],
+            "url": {
+              "raw": "http://{{baseUrl}}:{{port}}/api/beneficiaries/beneficiaries",
+              "protocol": "http",
+              "host": ["{{baseUrl}}"],
+              "port": "{{port}}",
+              "path": ["api", "beneficiaries", "beneficiaries"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Beneficiary by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+            ],
+            "url": {
+              "raw": "http://{{baseUrl}}:{{port}}/api/beneficiaries/beneficiaries/{{beneficiaryId}}",
+              "protocol": "http",
+              "host": ["{{baseUrl}}"],
+              "port": "{{port}}",
+              "path": ["api", "beneficiaries", "beneficiaries", "{{beneficiaryId}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Beneficiary",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"bankName\": \"NeoBank International\"\n}"
+            },
+            "url": {
+              "raw": "http://{{baseUrl}}:{{port}}/api/beneficiaries/beneficiaries/{{beneficiaryId}}",
+              "protocol": "http",
+              "host": ["{{baseUrl}}"],
+              "port": "{{port}}",
+              "path": ["api", "beneficiaries", "beneficiaries", "{{beneficiaryId}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Beneficiary Status",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"approved\"\n}"
+            },
+            "url": {
+              "raw": "http://{{baseUrl}}:{{port}}/api/beneficiaries/beneficiaries/{{beneficiaryId}}/status",
+              "protocol": "http",
+              "host": ["{{baseUrl}}"],
+              "port": "{{port}}",
+              "path": ["api", "beneficiaries", "beneficiaries", "{{beneficiaryId}}", "status"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Beneficiary",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+            ],
+            "url": {
+              "raw": "http://{{baseUrl}}:{{port}}/api/beneficiaries/beneficiaries/{{beneficiaryId}}",
+              "protocol": "http",
+              "host": ["{{baseUrl}}"],
+              "port": "{{port}}",
+              "path": ["api", "beneficiaries", "beneficiaries", "{{beneficiaryId}}"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Cards",
+      "item": [
+        {
+          "name": "Create Card",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"accountId\": \"{{accountId}}\",\n  \"type\": \"debit\",\n  \"last4\": \"1234\",\n  \"status\": \"requested\"\n}"
+            },
+            "url": {
+              "raw": "http://{{baseUrl}}:{{port}}/api/cards/cards",
+              "protocol": "http",
+              "host": ["{{baseUrl}}"],
+              "port": "{{port}}",
+              "path": ["api", "cards", "cards"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get My Cards",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+            ],
+            "url": {
+              "raw": "http://{{baseUrl}}:{{port}}/api/cards/cards/mine",
+              "protocol": "http",
+              "host": ["{{baseUrl}}"],
+              "port": "{{port}}",
+              "path": ["api", "cards", "cards", "mine"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Cards",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+            ],
+            "url": {
+              "raw": "http://{{baseUrl}}:{{port}}/api/cards/cards",
+              "protocol": "http",
+              "host": ["{{baseUrl}}"],
+              "port": "{{port}}",
+              "path": ["api", "cards", "cards"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Card by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+            ],
+            "url": {
+              "raw": "http://{{baseUrl}}:{{port}}/api/cards/cards/{{cardId}}",
+              "protocol": "http",
+              "host": ["{{baseUrl}}"],
+              "port": "{{port}}",
+              "path": ["api", "cards", "cards", "{{cardId}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Card Status",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"active\"\n}"
+            },
+            "url": {
+              "raw": "http://{{baseUrl}}:{{port}}/api/cards/cards/{{cardId}}/status",
+              "protocol": "http",
+              "host": ["{{baseUrl}}"],
+              "port": "{{port}}",
+              "path": ["api", "cards", "cards", "{{cardId}}", "status"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Cancel Card",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+            ],
+            "url": {
+              "raw": "http://{{baseUrl}}:{{port}}/api/cards/cards/{{cardId}}/cancel",
+              "protocol": "http",
+              "host": ["{{baseUrl}}"],
+              "port": "{{port}}",
+              "path": ["api", "cards", "cards", "{{cardId}}", "cancel"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Notifications",
+      "item": [
+        {
+          "name": "Create Notification",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userId\": \"{{customerId}}\",\n  \"message\": \"Your account has been updated.\",\n  \"type\": \"system\",\n  \"read\": false\n}"
+            },
+            "url": {
+              "raw": "http://{{baseUrl}}:{{port}}/api/notifications/notifications",
+              "protocol": "http",
+              "host": ["{{baseUrl}}"],
+              "port": "{{port}}",
+              "path": ["api", "notifications", "notifications"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Notifications (Admin)",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+            ],
+            "url": {
+              "raw": "http://{{baseUrl}}:{{port}}/api/notifications/notifications",
+              "protocol": "http",
+              "host": ["{{baseUrl}}"],
+              "port": "{{port}}",
+              "path": ["api", "notifications", "notifications"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get My Notifications",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+            ],
+            "url": {
+              "raw": "http://{{baseUrl}}:{{port}}/api/notifications/notifications/mine",
+              "protocol": "http",
+              "host": ["{{baseUrl}}"],
+              "port": "{{port}}",
+              "path": ["api", "notifications", "notifications", "mine"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Mark Notification As Read",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+            ],
+            "url": {
+              "raw": "http://{{baseUrl}}:{{port}}/api/notifications/notifications/{{notificationId}}/read",
+              "protocol": "http",
+              "host": ["{{baseUrl}}"],
+              "port": "{{port}}",
+              "path": ["api", "notifications", "notifications", "{{notificationId}}", "read"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Mark All Notifications Read",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+            ],
+            "url": {
+              "raw": "http://{{baseUrl}}:{{port}}/api/notifications/notifications/read-all",
+              "protocol": "http",
+              "host": ["{{baseUrl}}"],
+              "port": "{{port}}",
+              "path": ["api", "notifications", "notifications", "read-all"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Notification",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+            ],
+            "url": {
+              "raw": "http://{{baseUrl}}:{{port}}/api/notifications/notifications/{{notificationId}}",
+              "protocol": "http",
+              "host": ["{{baseUrl}}"],
+              "port": "{{port}}",
+              "path": ["api", "notifications", "notifications", "{{notificationId}}"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Teams",
+      "item": [
+        {
+          "name": "Create Team",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Operations Team\",\n  \"branch\": \"{{branchId}}\",\n  \"managerId\": \"{{employeeId}}\",\n  \"members\": [\"{{employeeId}}\"]\n}"
+            },
+            "url": {
+              "raw": "http://{{baseUrl}}:{{port}}/api/teams/teams",
+              "protocol": "http",
+              "host": ["{{baseUrl}}"],
+              "port": "{{port}}",
+              "path": ["api", "teams", "teams"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Teams",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+            ],
+            "url": {
+              "raw": "http://{{baseUrl}}:{{port}}/api/teams/teams",
+              "protocol": "http",
+              "host": ["{{baseUrl}}"],
+              "port": "{{port}}",
+              "path": ["api", "teams", "teams"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Team by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+            ],
+            "url": {
+              "raw": "http://{{baseUrl}}:{{port}}/api/teams/teams/{{teamId}}",
+              "protocol": "http",
+              "host": ["{{baseUrl}}"],
+              "port": "{{port}}",
+              "path": ["api", "teams", "teams", "{{teamId}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Team",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Operations Team Alpha\"\n}"
+            },
+            "url": {
+              "raw": "http://{{baseUrl}}:{{port}}/api/teams/teams/{{teamId}}",
+              "protocol": "http",
+              "host": ["{{baseUrl}}"],
+              "port": "{{port}}",
+              "path": ["api", "teams", "teams", "{{teamId}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Team",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+            ],
+            "url": {
+              "raw": "http://{{baseUrl}}:{{port}}/api/teams/teams/{{teamId}}",
+              "protocol": "http",
+              "host": ["{{baseUrl}}"],
+              "port": "{{port}}",
+              "path": ["api", "teams", "teams", "{{teamId}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Add Member to Team",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"employeeId\": \"{{employeeId}}\"\n}"
+            },
+            "url": {
+              "raw": "http://{{baseUrl}}:{{port}}/api/teams/teams/{{teamId}}/add-member",
+              "protocol": "http",
+              "host": ["{{baseUrl}}"],
+              "port": "{{port}}",
+              "path": ["api", "teams", "teams", "{{teamId}}", "add-member"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Remove Member from Team",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"employeeId\": \"{{employeeId}}\"\n}"
+            },
+            "url": {
+              "raw": "http://{{baseUrl}}:{{port}}/api/teams/teams/{{teamId}}/remove-member",
+              "protocol": "http",
+              "host": ["{{baseUrl}}"],
+              "port": "{{port}}",
+              "path": ["api", "teams", "teams", "{{teamId}}", "remove-member"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "System Settings",
+      "item": [
+        {
+          "name": "Get System Settings",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+            ],
+            "url": {
+              "raw": "http://{{baseUrl}}:{{port}}/api/system-settings/systemSettings",
+              "protocol": "http",
+              "host": ["{{baseUrl}}"],
+              "port": "{{port}}",
+              "path": ["api", "system-settings", "systemSettings"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update System Settings",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"defaultInterestRate\": 4.8,\n  \"transactionApprovalThreshold\": 1000,\n  \"supportedCurrencies\": [\"USD\", \"EUR\"]\n}"
+            },
+            "url": {
+              "raw": "http://{{baseUrl}}:{{port}}/api/system-settings/systemSettings",
+              "protocol": "http",
+              "host": ["{{baseUrl}}"],
+              "port": "{{port}}",
+              "path": ["api", "system-settings", "systemSettings"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Fraud Alerts",
+      "item": [
+        {
+          "name": "Create Fraud Alert",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"transactionId\": \"{{transactionId}}\",\n  \"accountId\": \"{{accountId}}\",\n  \"riskScore\": 85,\n  \"status\": \"pending\",\n  \"reviewedBy\": \"{{employeeId}}\"\n}"
+            },
+            "url": {
+              "raw": "http://{{baseUrl}}:{{port}}/api/fraud-alerts/fraudAlerts",
+              "protocol": "http",
+              "host": ["{{baseUrl}}"],
+              "port": "{{port}}",
+              "path": ["api", "fraud-alerts", "fraudAlerts"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Fraud Alerts",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+            ],
+            "url": {
+              "raw": "http://{{baseUrl}}:{{port}}/api/fraud-alerts/fraudAlerts",
+              "protocol": "http",
+              "host": ["{{baseUrl}}"],
+              "port": "{{port}}",
+              "path": ["api", "fraud-alerts", "fraudAlerts"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Fraud Alert by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+            ],
+            "url": {
+              "raw": "http://{{baseUrl}}:{{port}}/api/fraud-alerts/fraudAlerts/{{auditLogId}}",
+              "protocol": "http",
+              "host": ["{{baseUrl}}"],
+              "port": "{{port}}",
+              "path": ["api", "fraud-alerts", "fraudAlerts", "{{auditLogId}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Fraud Alert",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"reviewed\"\n}"
+            },
+            "url": {
+              "raw": "http://{{baseUrl}}:{{port}}/api/fraud-alerts/fraudAlerts/{{auditLogId}}",
+              "protocol": "http",
+              "host": ["{{baseUrl}}"],
+              "port": "{{port}}",
+              "path": ["api", "fraud-alerts", "fraudAlerts", "{{auditLogId}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Fraud Alert Status",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"approved\"\n}"
+            },
+            "url": {
+              "raw": "http://{{baseUrl}}:{{port}}/api/fraud-alerts/fraudAlerts/{{auditLogId}}/status",
+              "protocol": "http",
+              "host": ["{{baseUrl}}"],
+              "port": "{{port}}",
+              "path": ["api", "fraud-alerts", "fraudAlerts", "{{auditLogId}}", "status"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Fraud Alert",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+            ],
+            "url": {
+              "raw": "http://{{baseUrl}}:{{port}}/api/fraud-alerts/fraudAlerts",
+              "protocol": "http",
+              "host": ["{{baseUrl}}"],
+              "port": "{{port}}",
+              "path": ["api", "fraud-alerts", "fraudAlerts"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Audit Logs",
+      "item": [
+        {
+          "name": "Get All Audit Logs",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+            ],
+            "url": {
+              "raw": "http://{{baseUrl}}:{{port}}/api/audit-logs/",
+              "protocol": "http",
+              "host": ["{{baseUrl}}"],
+              "port": "{{port}}",
+              "path": ["api", "audit-logs", ""]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Audit Logs by Actor",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+            ],
+            "url": {
+              "raw": "http://{{baseUrl}}:{{port}}/api/audit-logs/actor/{{actorId}}",
+              "protocol": "http",
+              "host": ["{{baseUrl}}"],
+              "port": "{{port}}",
+              "path": ["api", "audit-logs", "actor", "{{actorId}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Audit Logs by Entity",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+            ],
+            "url": {
+              "raw": "http://{{baseUrl}}:{{port}}/api/audit-logs/entity/{{entityType}}/{{entityId}}",
+              "protocol": "http",
+              "host": ["{{baseUrl}}"],
+              "port": "{{port}}",
+              "path": ["api", "audit-logs", "entity", "{{entityType}}", "{{entityId}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Audit Log by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+            ],
+            "url": {
+              "raw": "http://{{baseUrl}}:{{port}}/api/audit-logs/{{auditLogId}}",
+              "protocol": "http",
+              "host": ["{{baseUrl}}"],
+              "port": "{{port}}",
+              "path": ["api", "audit-logs", "{{auditLogId}}"]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
