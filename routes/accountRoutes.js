@@ -6,7 +6,7 @@ const router = express.Router();
 router.use(protect);
 
 router.post('/accounts', restrictTo('teller', 'admin'), accountController.createAccount);
-router.get('/accounts/mine', restrictTo('customer'), accountController.getMyAccounts);
+router.get('/mine', restrictTo('customer'), accountController.getMyAccounts);
 router.get('/accounts', restrictTo('teller', 'branch-manager', 'admin'), accountController.getAllAccounts);
 router.get('/accounts/:id', restrictTo('customer', 'teller', 'branch-manager', 'admin'), accountController.getAccount);
 router.put('/accounts/:id', restrictTo('teller', 'branch-manager', 'admin'), accountController.updateAccount);

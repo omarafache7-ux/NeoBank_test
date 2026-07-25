@@ -166,3 +166,28 @@
   font-weight: 700;
   color: var(--navy);
 }
+/* Accounts Section Spacing */
+.accounts-section {
+  margin-top: 32px;
+}
+
+/* Section Subheadings */
+.section-title {
+  color: var(--navy, #0f172a);
+  margin-bottom: 16px;
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+/* Secondary / Muted Details on Cards */
+.account-number {
+  font-size: 12px;
+  color: var(--text-muted, #94a3b8);
+  margin-top: 8px;
+}
+
+/* Empty State Styling */
+.no-data-text {
+  color: var(--text-muted, #94a3b8);
+  font-size: 0.875rem;
+}
