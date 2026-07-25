@@ -1,7 +1,7 @@
 const express = require('express');
 const { protect, restrictTo } = require('../middleware/authMiddleWare');
 const transactionController = require('../controllers/transactionController');
-
+const router = express.Router();
 router.use(protect);
 
 router.post('/transactions', restrictTo('customer', 'teller'), transactionController.createTransaction);

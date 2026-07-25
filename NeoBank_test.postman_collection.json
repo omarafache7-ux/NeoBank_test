@@ -993,11 +993,28 @@
               { "key": "Authorization", "value": "Bearer {{authToken}}" }
             ],
             "url": {
-              "raw": "http://{{baseUrl}}:{{port}}/api/notifications/notifications",
+              "raw": "http://{{baseUrl}}:{{port}}/api/notifications/notifications/admin",
               "protocol": "http",
               "host": ["{{baseUrl}}"],
               "port": "{{port}}",
-              "path": ["api", "notifications", "notifications"]
+              "path": ["api", "notifications", "notifications", "admin"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Notification by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+            ],
+            "url": {
+              "raw": "http://{{baseUrl}}:{{port}}/api/notifications/notifications/{{notificationId}}",
+              "protocol": "http",
+              "host": ["{{baseUrl}}"],
+              "port": "{{port}}",
+              "path": ["api", "notifications", "notifications", "{{notificationId}}"]
             }
           },
           "response": []

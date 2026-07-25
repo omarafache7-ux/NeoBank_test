@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const Account = require("../models/accountSchema");
 const Transaction = require("../models/transactionSchema");
 const Customer = require("../models/customerSchema");
+const Branch = require("../models/branchSchema");
 const { recordLog } = require("../utils/auditLogger");
 
 const generateReferenceNumber = () => {
@@ -42,39 +43,94 @@ exports.getAccount = async (req, res) => {
     res.status(500).json({ status: "error", message: err.message });
   }
 };
+exports.getMyAccounts = async (req, res) => {
+  try {
+    const accounts = await Account.find({ customer: req.customer._id }).sort({
+      createdAt: -1,
+    });
+    res.status(200).json({ status: 'success', results: accounts.length, data: accounts });
+  } catch (err) {
+    res.status(500).json({ status: 'error', message: err.message });
+  }
+};
 
 
 exports.createAccount = async (req, res) => {
   try {
-    const { customerId, type, currency, balance, accountGroup } = req.body;
+    const {
+      customer: customerInput, // Can be customer _id, nationalId, or phone
+      branch: branchInput,     // Can be branch _id or branch code (e.g., "BR001")
+      type,
+      currency,
+      balance,
+    } = req.body;
 
-    const customerCheck = await Customer.findById(customerId);
-    if (!customerCheck) {
+    // 1. Validate required fields
+    if (!customerInput || !branchInput || !type) {
       return res.status(400).json({
+        status: "fail",
+        message: "Customer, branch, and account type are required.",
+      });
+    }
+
+    // 2. Resolve Customer (by ObjectId or nationalId/phone)
+    let customerDoc;
+    if (mongoose.Types.ObjectId.isValid(customerInput)) {
+      customerDoc = await Customer.findById(customerInput);
+    } else {
+      customerDoc = await Customer.findOne({
+        $or: [{ nationalId: customerInput }, { phone: customerInput }],
+      });
+    }
+
+    if (!customerDoc) {
+      return res.status(404).json({
         status: "fail",
         message: "Customer does not exist. Cannot create account.",
       });
     }
-    
-   const existingAccount = await Account.findOne({
-      customerId
-    });
+
+    // 3. Resolve Branch (by ObjectId or branch code)
+    let branchDoc;
+    if (mongoose.Types.ObjectId.isValid(branchInput)) {
+      branchDoc = await Branch.findById(branchInput);
+    } else {
+      branchDoc = await Branch.findOne({ code: branchInput });
+    }
+
+    if (!branchDoc) {
+      return res.status(404).json({
+        status: "fail",
+        message: "Branch does not exist. Cannot create account.",
+      });
+    }
+
+    // 4. Check if account already exists for this customer (with same type/currency if needed)
+    const existingAccount = await Account.findOne({ customer: customerDoc._id });
     if (existingAccount) {
-  return res.status(400).json({
-    status: "fail",
-    message: "An account already exists for this customer.",
-  });
-}
-    const initialBalance = balance !== undefined ? balance : "0.00";
+      return res.status(400).json({
+        status: "fail",
+        message: "An account already exists for this customer.",
+      });
+    }
 
+    // 5. Format Balance
+    const initialBalance = balance !== undefined ? balance : "0.00";
+    const decimalBalance = mongoose.Types.Decimal128.fromString(
+      Number(initialBalance).toFixed(2)
+    );
+
+    // 6. Create Account Document
     const account = await Account.create({
-      customerId,
+      accountNumber: generateReferenceNumber(),
+      customer: customerDoc._id,
+      branch: branchDoc._id,
       type,
-      currency,
-      balance: mongoose.Types.Decimal128.fromString(Number(initialBalance).toFixed(2)),
-      accountGroup,
+      currency: currency || "USD",
+      balance: decimalBalance,
     });
 
+    // 7. Audit Logging
     await recordLog({
       actorId: req.user._id,
       action: "account.create",
@@ -84,12 +140,25 @@ exports.createAccount = async (req, res) => {
         accountNumber: account.accountNumber,
         type: account.type,
         currency: account.currency,
-        customerId: account.customer,
+        customer: account.customer,
+        branch: account.branch,
       },
     }).catch((err) => console.error("Audit log failed:", err.message));
 
-    res.status(201).json({ status: "success", data: account });
+    // 8. Populate Full Customer & Branch details for Response
+    const populatedAccount = await Account.findById(account._id)
+      .populate({
+        path: "customer",
+        populate: { path: "user", select: "firstName lastName email" },
+      })
+      .populate("branch");
+
+    res.status(201).json({
+      status: "success",
+      data: { account: populatedAccount },
+    });
   } catch (err) {
+    console.error(err);
     res.status(500).json({ status: "error", message: err.message });
   }
 };

@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+const cors = require('cors');
 const { connectDB } = require('./database');
 
 const authRoutes = require('./routes/authRoutes');
@@ -18,6 +19,7 @@ const fraudAlertRoutes = require('./routes/fraudAlertRoutes');
 const auditLogRoutes = require('./routes/auditLogRoutes');
 
 app.use(express.json());
+app.use(cors());
 
 app.use('/api/auth', authRoutes);
 app.use('/api/customer', customerRoutes);
@@ -37,6 +39,6 @@ app.use('/api/audit-logs', auditLogRoutes);
 
 connectDB();
 
-app.listen(3000, () => {
-  console.log('server is running on port 3000');
+app.listen(4000, () => {
+  console.log('server is running on port 4000');
 });

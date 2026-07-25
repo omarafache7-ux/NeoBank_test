@@ -1,4 +1,4 @@
-const SystemSetting = require("../models/systemSettingsSchema");
+const SystemSetting = require("../models/systemSettingSchema");
 const { recordLog } = require("../utils/auditLogger");
 
 

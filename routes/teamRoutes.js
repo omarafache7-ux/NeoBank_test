@@ -1,7 +1,7 @@
 const express = require('express');
 const { protect, restrictTo } = require('../middleware/authMiddleWare');
 const teamController = require('../controllers/teamController');
-
+const router = express.Router();
 router.use(protect);
 router.use(restrictTo('admin', 'branch-manager'));
 

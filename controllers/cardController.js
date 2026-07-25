@@ -1,3 +1,4 @@
+const mongoose = require("mongoose");
 const Card = require("../models/cardSchema");
 const Account = require("../models/accountSchema");
 const { recordLog } = require("../utils/auditLogger");
@@ -5,13 +6,15 @@ const { recordLog } = require("../utils/auditLogger");
 
 exports.createCard = async (req, res) => {
   try {
-    const { accountId, type, last4, status } = req.body;
+    // 1. Support flexible input keys (account, accountId, or accountNumber)
+    const accountInput = req.body.account || req.body.accountId || req.body.accountNumber;
+    const { type, last4, status, expiryDate } = req.body;
 
-    // 1. Basic validation
-    if (!accountId || !type || !last4) {
+    // 2. Basic validation
+    if (!accountInput || !type || !last4) {
       return res.status(400).json({
         status: "fail",
-        message: "accountId, type, and last4 are required fields.",
+        message: "account (or accountId/accountNumber), type, and last4 are required.",
       });
     }
 
@@ -22,59 +25,86 @@ exports.createCard = async (req, res) => {
       });
     }
 
-    if (!["debit", "credit", "prepaid"].includes(type)) {
+    // Matches cardSchema enum ["debit", "credit"]
+    if (!["debit", "credit"].includes(type)) {
       return res.status(400).json({
         status: "fail",
-        message: "Invalid card type. Allowed values: debit, credit, prepaid.",
+        message: "Invalid card type. Allowed values: debit, credit.",
       });
     }
 
-    // 2. Account Existence & Status Check
-    const account = await Account.findById(accountId);
-    if (!account) {
+    // 3. Resolve Account (by ObjectId or accountNumber)
+    let accountDoc;
+    if (mongoose.Types.ObjectId.isValid(accountInput)) {
+      accountDoc = await Account.findById(accountInput);
+    } else {
+      accountDoc = await Account.findOne({ accountNumber: accountInput });
+    }
+
+    if (!accountDoc) {
       return res.status(404).json({
         status: "fail",
         message: "Account not found.",
       });
     }
 
-    if (account.status !== "active") {
+    if (accountDoc.status !== "active") {
       return res.status(400).json({
         status: "fail",
-        message: `Cannot issue a card for an account with status '${account.status}'.`,
+        message: `Cannot issue a card for an account with status '${accountDoc.status}'.`,
       });
     }
 
-    // 3. Derive customerId directly from the verified account
-    const derivedCustomerId = account.customerId;
+    // 4. Derive customerId directly from account.customer (matches accountSchema)
+    const derivedCustomerId = accountDoc.customer;
 
-    // 4. Create Card (Fallback to 'requested' if status not provided)
+    // 5. Calculate expiryDate (Default to 3 years from today if not provided)
+    const calculatedExpiry = expiryDate
+      ? new Date(expiryDate)
+      : new Date(Date.now() + 3 * 365 * 24 * 60 * 60 * 1000);
+
+    // 6. Create Card matching cardSchema field names
     const initialStatus = status || "requested";
 
     const card = await Card.create({
-      accountId,
       customerId: derivedCustomerId,
+      account: accountDoc._id,
       type,
       last4,
       status: initialStatus,
+      expiryDate: calculatedExpiry,
     });
 
+    // 7. Audit Logging
     await recordLog({
       actorId: req.user._id,
       action: "card.create",
       entityType: "Card",
       entityId: card._id,
       details: {
-        accountId,
+        accountId: accountDoc._id,
         customerId: derivedCustomerId,
         type,
         last4,
         status: initialStatus,
+        expiryDate: calculatedExpiry,
       },
     }).catch((err) => console.error("Audit log failed:", err.message));
 
-    res.status(201).json({ status: "success", data: card });
+    // 8. Populate response
+    const populatedCard = await Card.findById(card._id)
+      .populate({
+        path: "customerId",
+        populate: { path: "user", select: "firstName lastName email" },
+      })
+      .populate("account", "accountNumber type status currency");
+
+    res.status(201).json({
+      status: "success",
+      data: { card: populatedCard },
+    });
   } catch (err) {
+    console.error(err);
     res.status(500).json({ status: "error", message: err.message });
   }
 };

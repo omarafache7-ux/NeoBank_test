@@ -18,7 +18,7 @@ const signToken = (user)=>{
 
     },
     process.env.JWT_SECRET,
-    {expiresIn:process.env.JWT_EXPIRES || "20m"}
+    {expiresIn:process.env.JWT_EXPIRE || "20m"}
   );
 }
 
@@ -39,65 +39,99 @@ const createSendToken = (user,statusCode,message,res)=>{
   });
 }
 
-exports.signUp = async (req,res)=>{
-  try{
-    const { 
-      firstName, 
-      lastName, 
-      userName, 
-      email, 
-      password, 
-      passwordConfirm, 
+exports.signUp = async (req, res) => {
+  try {
+    const {
+      firstName,
+      lastName,
+      userName,
+      email,
+      password,
+      passwordConfirm,
+      role,
     } = req.body;
 
-    if(!validator.isEmail(email)){
-      return res.status(400).json({message:"Invalid email address!"})
-    }
-
-    if(password !== passwordConfirm){
-      return res.status(400).json({message:"Please enter matching passwords!"})
-    }
-
-    const finalRole = 'customer';
-
-    const existingUser = await User.findOne({
-      $or:[{email},{userName}]
-    });
-    if(existingUser){
-      return res.status(409).json({message:`An account with that email or username already exists.`})
-    }
-
-    const {nationalId,dateOfBirth,phone,address} = req.body;
-    if (!nationalId || !dateOfBirth || !phone || !address?.country || !address?.city) {
-      return res.status(400).json({ 
-        message: "National ID, Date of Birth, Phone, Country, and City are required.",
+    if (!['customer', 'employee'].includes(role)) {
+      return res.status(403).json({
+        message: 'Forbidden: Only customers or employees can perform this action.',
       });
     }
 
+    if (!validator.isEmail(email)) {
+      return res.status(400).json({ message: 'Invalid email address!' });
+    }
+
+    if (password !== passwordConfirm) {
+      return res.status(400).json({ message: 'Please enter matching passwords!' });
+    }
+
+    const finalRole = role === 'employee' ? 'employee' : 'customer';
+
+    const existingUser = await User.findOne({ $or: [{ email }, { userName }] });
+    if (existingUser) {
+      return res.status(409).json({ message: `An account with that email or username already exists.` });
+    }
+
+    const { employeeId, jobTitle, branchId, teamId, staffAccessCode } = req.body;
+    if (finalRole === 'employee') {
+      if (!employeeId || !jobTitle) {
+        return res.status(400).json({ message: 'Employee ID and job title are required for employee accounts.' });
+      }
+      if (!staffAccessCode) {
+        return res.status(400).json({ message: 'A staff access code is required for employee accounts.' });
+      }
+      const allowedStaffCode = process.env.STAFF_ACCESS_CODE || 'NEOBANK-STAFF';
+      if (staffAccessCode !== allowedStaffCode) {
+        return res.status(403).json({ message: 'Invalid staff access code.' });
+      }
+    }
+
+    const { nationalId, dateOfBirth, phone, address } = req.body;
+    if (finalRole === 'customer') {
+      if (!nationalId || !dateOfBirth || !phone || !address?.country || !address?.city) {
+        return res.status(400).json({
+          message: 'National ID, Date of Birth, Phone, Country, and City are required.',
+        });
+      }
+    }
+
     const newUser = await User.create({
-      firstName, 
-      lastName, 
-      userName, 
-      email, 
-      password,  
+      firstName,
+      lastName,
+      userName,
+      email,
+      password,
       role: finalRole,
     });
 
-    await Customer.create({
-      user:newUser._id,
-      nationalId,
-      dateOfBirth,
-      phone,
-      address,
-    });
+    // FIX: this was two separate "if"s before, so a customer signup fell through into
+    // Employee.create's if (skipped, fine) and then hit an UNGUARDED Customer.create —
+    // which also ran on every employee signup, with every field undefined. Now it's one
+    // if/else, so exactly one of the two ever runs, matching finalRole.
+    if (finalRole === 'employee') {
+      await Employee.create({
+        user: newUser._id,
+        employeeId,
+        jobTitle,
+        branchId: branchId || null,
+        teamId: teamId || null,
+      });
+    } else {
+      await Customer.create({
+        user: newUser._id,
+        nationalId,
+        dateOfBirth,
+        phone,
+        address,
+      });
+    }
 
     return createSendToken(newUser, 201, `User ${newUser.firstName} has been created successfully`, res);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: err.message });
   }
-  catch(err){
-   console.log(err)
-   res.status(500).json({message:err.message});
-  }
-}
+};
 
 exports.login = async (req,res)=>{
     try {

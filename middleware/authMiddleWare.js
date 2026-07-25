@@ -51,16 +51,25 @@ exports.protect = async (req, res, next) => {
   }
 };
 
-// Restrict routes by role
+// Restrict routes by role or employee job title
 exports.restrictTo = (...roles) => {
   return (req, res, next) => {
-    // Check against req.user.role instead of req.user.userType
-    if (!roles.includes(req.user.role)) {
+    // 1. Get the user's top-level role ('customer' or 'employee')
+    const userRole = req.user.role;
+    
+    // 2. Get the specific job title if they are an employee ('admin', 'branch-manager', etc.)
+    const jobTitle = req.employee ? req.employee.jobTitle : null;
+
+    // 3. Check if either match the permitted roles
+    const isAuthorized = roles.includes(userRole) || (jobTitle && roles.includes(jobTitle));
+
+    if (!isAuthorized) {
       return res.status(403).json({
         status: "fail",
         message: "You do not have permission to perform this action.",
       });
     }
+
     next();
   };
 };

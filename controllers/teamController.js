@@ -1,37 +1,57 @@
 const Team = require("../models/teamSchema");
 const Employee = require("../models/employeeSchema");
+const Branch = require('../models/branchSchema');
 const { recordLog } = require("../utils/auditLogger");
 
 // --- CREATE TEAM ---
 exports.createTeam = async (req, res) => {
   try {
-    const { name, branch, managerId, members } = req.body;
+    // Destructure using key names matching your Postman body
+    const { name, branch: branchCode, managerId: managerEmpId, members: memberEmpIds } = req.body;
 
-    if (!name || !branch || !managerId) {
+    if (!name || !branchCode || !managerEmpId) {
       return res.status(400).json({
         status: "fail",
-        message: "name, branch, and managerId are required fields.",
+        message: "Team name, branch code, and manager employee ID are required.",
       });
     }
 
-    const team = await Team.create({
+    // 1. Resolve Branch Code -> ObjectId
+    const branchDoc = await Branch.findOne({ code: branchCode });
+    if (!branchDoc) {
+      return res.status(404).json({ status: "fail", message: `Branch '${branchCode}' not found.` });
+    }
+
+    // 2. Resolve Manager Employee ID -> ObjectId
+    const managerDoc = await Employee.findOne({ employeeId: managerEmpId });
+    if (!managerDoc) {
+      return res.status(404).json({ status: "fail", message: `Manager '${managerEmpId}' not found.` });
+    }
+
+    // 3. Resolve Members Employee IDs -> ObjectIds
+    let memberObjectIds = [];
+    if (Array.isArray(memberEmpIds) && memberEmpIds.length > 0) {
+      const memberDocs = await Employee.find({ employeeId: { $in: memberEmpIds } });
+      memberObjectIds = memberDocs.map((doc) => doc);
+    }
+
+    // 4. Save to DB using the mapped ObjectIds (NOT req.body!)
+    const newTeam = await Team.create({
       name,
-      branch,
-      managerId,
-      members: members || [],
+      branch: branchDoc,       // Valid ObjectId
+      managerId: managerDoc,   // Valid ObjectId
+      members: memberObjectIds,    // Array of Valid ObjectIds
     });
 
-    await recordLog({
-      actorId: req.user._id,
-      action: "team.create",
-      entityType: "Team",
-      entityId: team._id,
-      details: { name: team.name, branch: team.branch, managerId: team.managerId },
-    }).catch((err) => console.error("Audit log failed:", err.message));
-
-    res.status(201).json({ status: "success", data: team });
+    return res.status(201).json({
+      status: "success",
+      data: { team: newTeam },
+    });
   } catch (err) {
-    res.status(500).json({ status: "error", message: err.message });
+    return res.status(400).json({
+      status: "fail",
+      message: err.message,
+    });
   }
 };
 

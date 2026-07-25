@@ -1,4 +1,5 @@
 const Employee = require("../models/employeeSchema");
+const Branch = require("../models/branchSchema")
 const User = require("../models/userSchema")
 
 // createEmployee can done by the admin and the branch manager
@@ -12,7 +13,7 @@ exports.createEmployee = async (req, res) => {
       password,
       employeeId,
       jobTitle,
-      branchId,
+      branchCode,
       teamId,
     } = req.body;
 
@@ -34,6 +35,19 @@ exports.createEmployee = async (req, res) => {
       });
     }
 
+    // NEW: resolve the branch by its human-readable code instead of trusting
+    // a raw ObjectId from the client — this also doubles as validating the
+    // branch actually exists before you ever create the User/Employee.
+    let branch = null;
+    if (branchCode) {
+      branch = await Branch.findOne({ code: branchCode });
+      if (!branch) {
+        return res.status(400).json({
+          message: `No branch found with code "${branchCode}".`,
+        });
+      }
+    }
+
     // 1. Create base User document
     const newUser = await User.create({
       firstName,
@@ -46,10 +60,10 @@ exports.createEmployee = async (req, res) => {
 
     // 2. Create Employee profile linked to the newly created User ID
     const newEmployee = await Employee.create({
-      user: newUser._id, //
+      user: newUser._id,
       employeeId,
       jobTitle,
-      branchId: branchId || null,
+      branchId: branch ? branch._id : null,   // store the real _id, resolved above
       teamId: teamId || null,
     });
 

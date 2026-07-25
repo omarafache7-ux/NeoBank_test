@@ -1,6 +1,6 @@
 const express = require('express');
 const { protect, restrictTo } = require('../middleware/authMiddleWare');
-const systemSettingsController = require('../controllers/systemSettingsController');
+const systemSettingsController = require('../controllers/systemSettingController');
 const router = express.Router();
 router.use(protect);
 router.use(restrictTo('admin'));
