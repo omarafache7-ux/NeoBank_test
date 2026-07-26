@@ -3,10 +3,10 @@ const Employee = require("../models/employeeSchema");
 const Branch = require('../models/branchSchema');
 const { recordLog } = require("../utils/auditLogger");
 
-// --- CREATE TEAM ---
+
 exports.createTeam = async (req, res) => {
   try {
-    // Destructure using key names matching your Postman body
+
     const { name, branch: branchCode, managerId: managerEmpId, members: memberEmpIds } = req.body;
 
     if (!name || !branchCode || !managerEmpId) {
@@ -16,31 +16,31 @@ exports.createTeam = async (req, res) => {
       });
     }
 
-    // 1. Resolve Branch Code -> ObjectId
+
     const branchDoc = await Branch.findOne({ code: branchCode });
     if (!branchDoc) {
       return res.status(404).json({ status: "fail", message: `Branch '${branchCode}' not found.` });
     }
 
-    // 2. Resolve Manager Employee ID -> ObjectId
+
     const managerDoc = await Employee.findOne({ employeeId: managerEmpId });
     if (!managerDoc) {
       return res.status(404).json({ status: "fail", message: `Manager '${managerEmpId}' not found.` });
     }
 
-    // 3. Resolve Members Employee IDs -> ObjectIds
+  
     let memberObjectIds = [];
     if (Array.isArray(memberEmpIds) && memberEmpIds.length > 0) {
       const memberDocs = await Employee.find({ employeeId: { $in: memberEmpIds } });
       memberObjectIds = memberDocs.map((doc) => doc);
     }
 
-    // 4. Save to DB using the mapped ObjectIds (NOT req.body!)
+
     const newTeam = await Team.create({
       name,
-      branch: branchDoc,       // Valid ObjectId
-      managerId: managerDoc,   // Valid ObjectId
-      members: memberObjectIds,    // Array of Valid ObjectIds
+      branch: branchDoc,       
+      managerId: managerDoc,   
+      members: memberObjectIds,    
     });
 
     return res.status(201).json({
@@ -55,7 +55,7 @@ exports.createTeam = async (req, res) => {
   }
 };
 
-// --- GET ALL TEAMS ---
+
 exports.getAllTeams = async (req, res) => {
   try {
     const teams = await Team.find()
@@ -82,7 +82,7 @@ exports.getAllTeams = async (req, res) => {
   }
 };
 
-// --- GET SINGLE TEAM ---
+
 exports.getTeam = async (req, res) => {
   try {
     const team = await Team.findById(req.params.id)
@@ -108,7 +108,7 @@ exports.getTeam = async (req, res) => {
   }
 };
 
-// --- UPDATE TEAM ---
+
 exports.updateTeam = async (req, res) => {
   try {
     const team = await Team.findByIdAndUpdate(req.params.id, req.body, {
@@ -134,7 +134,7 @@ exports.updateTeam = async (req, res) => {
   }
 };
 
-// --- DELETE TEAM ---
+
 exports.deleteTeam = async (req, res) => {
   try {
     const team = await Team.findByIdAndDelete(req.params.id);
@@ -157,7 +157,7 @@ exports.deleteTeam = async (req, res) => {
   }
 };
 
-// --- ADD MEMBER TO TEAM ---
+
 exports.addMember = async (req, res) => {
   try {
     const { employeeId } = req.body;
@@ -211,7 +211,7 @@ exports.addMember = async (req, res) => {
   }
 };
 
-// --- REMOVE MEMBER FROM TEAM ---
+
 exports.removeMember = async (req, res) => {
   try {
     const { employeeId } = req.body;

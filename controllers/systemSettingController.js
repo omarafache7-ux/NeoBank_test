@@ -4,7 +4,6 @@ const { recordLog } = require("../utils/auditLogger");
 
 exports.getSystemSettings = async (req, res) => {
   try {
-    // Retrieve the single settings document (or create standard defaults if none exists)
     let settings = await SystemSetting.findOne().populate({
       path: "updatedBy",
       select: "user employeeId department position",
@@ -57,10 +56,10 @@ exports.updateSystemSettings = async (req, res) => {
       });
     }
 
-    // 2. Fetch existing settings to keep track of previous values for audit logging
+
     const existingSettings = await SystemSetting.findOne();
 
-    // 3. Upsert (update the existing singleton or create it if missing)
+
     const updatedSettings = await SystemSetting.findOneAndUpdate(
       {},
       {

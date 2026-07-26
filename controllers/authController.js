@@ -104,10 +104,6 @@ exports.signUp = async (req, res) => {
       role: finalRole,
     });
 
-    // FIX: this was two separate "if"s before, so a customer signup fell through into
-    // Employee.create's if (skipped, fine) and then hit an UNGUARDED Customer.create —
-    // which also ran on every employee signup, with every field undefined. Now it's one
-    // if/else, so exactly one of the two ever runs, matching finalRole.
     if (finalRole === 'employee') {
       await Employee.create({
         user: newUser._id,
@@ -148,3 +144,18 @@ exports.login = async (req,res)=>{
 }
 
 
+exports.getAllUser = async (req, res) => {
+  try {
+    // Select all user fields EXCLUDING password and passwordConfirm
+    const users = await User.find().select("-password -passwordConfirm");
+
+    res.status(200).json({
+      status: "success",
+      results: users.length,
+      data: users,
+    });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ status: "error", message: err.message });
+  }
+};

@@ -45,14 +45,14 @@ function CustomerDashboard() {
 
   // Navigation items matching layout design
   const navItems = [
-    { label: 'Dashboard', active: true, path: '/dashboard' },
-    { label: 'Accounts', active: true, path: '/accounts' },
-    { label: 'Transfer', active: true, path: '/transfer' },
-    { label: 'Beneficiaries', active: true, path: '/beneficiaries' },
-    { label: 'Loans', active: true, path: '/loans' },
-    { label: 'Cards', active: true, path: '/cards' },
-    { label: 'Notifications', active: true, path: '/notifications' },
-    { label: 'Profile', active: true, path: '/profile' },
+    { label: 'Dashboard', active: true, path: '/customer-dashboard' },
+    { label: 'Accounts', active: true, path: '/customer-accounts' },
+    { label: 'Transfer', active: true, path: '/customer-transfer' },
+    { label: 'Beneficiaries', active: true, path: '/customer-beneficiaries' },
+    { label: 'Loans', active: true, path: '/customer-loans' },
+    { label: 'Cards', active: true, path: '/customer-cards' },
+    { label: 'Notifications', active: true, path: '/customer-notifications' },
+    { label: 'Profile', active: true, path: '/customer-profile' },
     { label: 'Loan Approvals', active: false, path: '#' },
     { label: 'System Settings', active: false, path: '#' },
   ];
@@ -192,7 +192,7 @@ function CustomerDashboard() {
                   <div className="label">Active Accounts</div>
                   <div className="value">{accounts.length}</div>
                 </div>
-                <div className="card" onClick={() => navigate('/notifications')} style={{ cursor: 'pointer' }}>
+                <div className="card" onClick={() => navigate('/customer-notifications')} style={{ cursor: 'pointer' }}>
                   <div className="label">Unread Notifications</div>
                   <div className="value">{unreadCount}</div>
                 </div>

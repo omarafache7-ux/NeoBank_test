@@ -6,23 +6,96 @@
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "variable": [
-    { "key": "baseUrl", "value": "localhost", "type": "string" },
-    { "key": "port", "value": "3000", "type": "string" },
-    { "key": "authToken", "value": "", "type": "string" },
-    { "key": "customerId", "value": "", "type": "string" },
-    { "key": "employeeId", "value": "", "type": "string" },
-    { "key": "branchId", "value": "", "type": "string" },
-    { "key": "accountId", "value": "", "type": "string" },
-    { "key": "transactionId", "value": "", "type": "string" },
-    { "key": "loanId", "value": "", "type": "string" },
-    { "key": "beneficiaryId", "value": "", "type": "string" },
-    { "key": "cardId", "value": "", "type": "string" },
-    { "key": "notificationId", "value": "", "type": "string" },
-    { "key": "teamId", "value": "", "type": "string" },
-    { "key": "auditLogId", "value": "", "type": "string" },
-    { "key": "actorId", "value": "", "type": "string" },
-    { "key": "entityId", "value": "", "type": "string" },
-    { "key": "entityType", "value": "", "type": "string" }
+    {
+      "key": "baseUrl",
+      "value": "localhost",
+      "type": "string"
+    },
+    {
+      "key": "port",
+      "value": "4000",
+      "type": "string"
+    },
+    {
+      "key": "authToken",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "customerId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "employeeId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "branchId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "branchCode",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "accountId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "transactionId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "loanId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "beneficiaryId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "cardId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "notificationId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "teamId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "auditLogId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "actorId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "entityId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "entityType",
+      "value": "",
+      "type": "string"
+    }
   ],
   "item": [
     {
@@ -33,18 +106,28 @@
           "request": {
             "method": "POST",
             "header": [
-              { "key": "Content-Type", "value": "application/json" }
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"firstName\": \"Alice\",\n  \"lastName\": \"Nguyen\",\n  \"userName\": \"alice1\",\n  \"email\": \"alice@example.com\",\n  \"password\": \"Password123!\",\n  \"passwordConfirm\": \"Password123!\",\n  \"nationalId\": \"NID123456\",\n  \"dateOfBirth\": \"1990-01-10\",\n  \"phone\": \"+1234567890\",\n  \"address\": {\n    \"country\": \"USA\",\n    \"city\": \"New York\",\n    \"street\": \"123 Main St\"\n  }\n}"
+              "raw": "{\n  \"firstName\": \"Alice\",\n  \"lastName\": \"Nguyen\",\n  \"userName\": \"alice1\",\n  \"email\": \"alice@example.com\",\n  \"password\": \"Password123!\",\n  \"passwordConfirm\": \"Password123!\",\n  \"role\": \"customer\",\n  \"nationalId\": \"NID123456\",\n  \"dateOfBirth\": \"1990-01-10\",\n  \"phone\": \"+1234567890\",\n  \"address\": {\n    \"country\": \"USA\",\n    \"city\": \"New York\",\n    \"street\": \"123 Main St\"\n  }\n}"
             },
             "url": {
               "raw": "http://{{baseUrl}}:{{port}}/api/auth/users/signup",
               "protocol": "http",
-              "host": ["{{baseUrl}}"],
+              "host": [
+                "{{baseUrl}}"
+              ],
               "port": "{{port}}",
-              "path": ["api", "auth", "users", "signup"]
+              "path": [
+                "api",
+                "auth",
+                "users",
+                "signup"
+              ]
             }
           },
           "response": []
@@ -54,7 +137,10 @@
           "request": {
             "method": "POST",
             "header": [
-              { "key": "Content-Type", "value": "application/json" }
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
             ],
             "body": {
               "mode": "raw",
@@ -63,9 +149,16 @@
             "url": {
               "raw": "http://{{baseUrl}}:{{port}}/api/auth/users/login",
               "protocol": "http",
-              "host": ["{{baseUrl}}"],
+              "host": [
+                "{{baseUrl}}"
+              ],
               "port": "{{port}}",
-              "path": ["api", "auth", "users", "login"]
+              "path": [
+                "api",
+                "auth",
+                "users",
+                "login"
+              ]
             }
           },
           "response": []
@@ -80,19 +173,31 @@
           "request": {
             "method": "POST",
             "header": [
-              { "key": "Content-Type", "value": "application/json" },
-              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"firstName\": \"John\",\n  \"lastName\": \"Doe\",\n  \"userName\": \"johndoe\",\n  \"email\": \"john.doe@example.com\",\n  \"password\": \"Secret123!\",\n  \"nationalId\": \"NID987654\",\n  \"dateOfBirth\": \"1985-08-20\",\n  \"phone\": \"+19876543210\",\n  \"adress\": {\n    \"country\": \"USA\",\n    \"city\": \"Seattle\",\n    \"street\": \"400 Pine St\"\n  }\n}"
+              "raw": "{\n  \"firstName\": \"John\",\n  \"lastName\": \"Doe\",\n  \"userName\": \"johndoe\",\n  \"email\": \"john.doe@example.com\",\n  \"password\": \"Secret123!\",\n  \"nationalId\": \"NID987654\",\n  \"dateOfBirth\": \"1985-08-20\",\n  \"phone\": \"+19876543210\",\n  \"address\": {\n    \"country\": \"USA\",\n    \"city\": \"Seattle\",\n    \"street\": \"400 Pine St\"\n  }\n}"
             },
             "url": {
-              "raw": "http://{{baseUrl}}:{{port}}/api/customers/customers",
+              "raw": "http://{{baseUrl}}:{{port}}/api/customers/create-customers",
               "protocol": "http",
-              "host": ["{{baseUrl}}"],
+              "host": [
+                "{{baseUrl}}"
+              ],
               "port": "{{port}}",
-              "path": ["api", "customers", "customers"]
+              "path": [
+                "api",
+                "customers",
+                "create-customers"
+              ]
             }
           },
           "response": []
@@ -102,14 +207,23 @@
           "request": {
             "method": "GET",
             "header": [
-              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
             ],
             "url": {
-              "raw": "http://{{baseUrl}}:{{port}}/api/customers/customers",
+              "raw": "http://{{baseUrl}}:{{port}}/api/customers/get-Allcustomers",
               "protocol": "http",
-              "host": ["{{baseUrl}}"],
+              "host": [
+                "{{baseUrl}}"
+              ],
               "port": "{{port}}",
-              "path": ["api", "customers", "customers"]
+              "path": [
+                "api",
+                "customers",
+                "get-Allcustomers"
+              ]
             }
           },
           "response": []
@@ -119,14 +233,24 @@
           "request": {
             "method": "GET",
             "header": [
-              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
             ],
             "url": {
-              "raw": "http://{{baseUrl}}:{{port}}/api/customers/customers/{{customerId}}",
+              "raw": "http://{{baseUrl}}:{{port}}/api/customers/get-customer/{{customerId}}",
               "protocol": "http",
-              "host": ["{{baseUrl}}"],
+              "host": [
+                "{{baseUrl}}"
+              ],
               "port": "{{port}}",
-              "path": ["api", "customers", "customers", "{{customerId}}"]
+              "path": [
+                "api",
+                "customers",
+                "get-customer",
+                "{{customerId}}"
+              ]
             }
           },
           "response": []
@@ -136,19 +260,32 @@
           "request": {
             "method": "PUT",
             "header": [
-              { "key": "Content-Type", "value": "application/json" },
-              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
             ],
             "body": {
               "mode": "raw",
               "raw": "{\n  \"phone\": \"+12025550001\"\n}"
             },
             "url": {
-              "raw": "http://{{baseUrl}}:{{port}}/api/customers/customers/{{customerId}}",
+              "raw": "http://{{baseUrl}}:{{port}}/api/customers/update-customers/{{customerId}}",
               "protocol": "http",
-              "host": ["{{baseUrl}}"],
+              "host": [
+                "{{baseUrl}}"
+              ],
               "port": "{{port}}",
-              "path": ["api", "customers", "customers", "{{customerId}}"]
+              "path": [
+                "api",
+                "customers",
+                "update-customers",
+                "{{customerId}}"
+              ]
             }
           },
           "response": []
@@ -158,8 +295,14 @@
           "request": {
             "method": "PUT",
             "header": [
-              { "key": "Content-Type", "value": "application/json" },
-              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
             ],
             "body": {
               "mode": "raw",
@@ -168,9 +311,15 @@
             "url": {
               "raw": "http://{{baseUrl}}:{{port}}/api/customers/me",
               "protocol": "http",
-              "host": ["{{baseUrl}}"],
+              "host": [
+                "{{baseUrl}}"
+              ],
               "port": "{{port}}",
-              "path": ["api", "customers", "me"]
+              "path": [
+                "api",
+                "customers",
+                "me"
+              ]
             }
           },
           "response": []
@@ -185,19 +334,31 @@
           "request": {
             "method": "POST",
             "header": [
-              { "key": "Content-Type", "value": "application/json" },
-              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"firstName\": \"Mark\",\n  \"lastName\": \"Smith\",\n  \"userName\": \"marksmith\",\n  \"email\": \"mark.smith@example.com\",\n  \"password\": \"Password123!\",\n  \"employeeId\": \"EMP1001\",\n  \"jobTitle\": \"Branch Manager\",\n  \"branchId\": \"{{branchId}}\",\n  \"teamId\": \"{{teamId}}\"\n}"
+              "raw": "{\n  \"firstName\": \"Mark\",\n  \"lastName\": \"Smith\",\n  \"userName\": \"marksmith\",\n  \"email\": \"mark.smith@example.com\",\n  \"password\": \"Password123!\",\n  \"employeeId\": \"EMP1001\",\n  \"jobTitle\": \"Branch Manager\",\n  \"branchCode\": \"{{branchCode}}\",\n  \"teamId\": \"{{teamId}}\"\n}"
             },
             "url": {
-              "raw": "http://{{baseUrl}}:{{port}}/api/employees/employees",
+              "raw": "http://{{baseUrl}}:{{port}}/api/employees/create-employees",
               "protocol": "http",
-              "host": ["{{baseUrl}}"],
+              "host": [
+                "{{baseUrl}}"
+              ],
               "port": "{{port}}",
-              "path": ["api", "employees", "employees"]
+              "path": [
+                "api",
+                "employees",
+                "create-employees"
+              ]
             }
           },
           "response": []
@@ -207,14 +368,23 @@
           "request": {
             "method": "GET",
             "header": [
-              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
             ],
             "url": {
-              "raw": "http://{{baseUrl}}:{{port}}/api/employees/employees",
+              "raw": "http://{{baseUrl}}:{{port}}/api/employees/get-Allemployess",
               "protocol": "http",
-              "host": ["{{baseUrl}}"],
+              "host": [
+                "{{baseUrl}}"
+              ],
               "port": "{{port}}",
-              "path": ["api", "employees", "employees"]
+              "path": [
+                "api",
+                "employees",
+                "get-Allemployess"
+              ]
             }
           },
           "response": []
@@ -224,14 +394,24 @@
           "request": {
             "method": "GET",
             "header": [
-              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
             ],
             "url": {
-              "raw": "http://{{baseUrl}}:{{port}}/api/employees/employees/{{employeeId}}",
+              "raw": "http://{{baseUrl}}:{{port}}/api/employees/get-employee/{{employeeId}}",
               "protocol": "http",
-              "host": ["{{baseUrl}}"],
+              "host": [
+                "{{baseUrl}}"
+              ],
               "port": "{{port}}",
-              "path": ["api", "employees", "employees", "{{employeeId}}"]
+              "path": [
+                "api",
+                "employees",
+                "get-employee",
+                "{{employeeId}}"
+              ]
             }
           },
           "response": []
@@ -241,19 +421,32 @@
           "request": {
             "method": "PUT",
             "header": [
-              { "key": "Content-Type", "value": "application/json" },
-              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
             ],
             "body": {
               "mode": "raw",
               "raw": "{\n  \"jobTitle\": \"Senior Branch Manager\"\n}"
             },
             "url": {
-              "raw": "http://{{baseUrl}}:{{port}}/api/employees/employees/{{employeeId}}",
+              "raw": "http://{{baseUrl}}:{{port}}/api/employees/update-employees/{{employeeId}}",
               "protocol": "http",
-              "host": ["{{baseUrl}}"],
+              "host": [
+                "{{baseUrl}}"
+              ],
               "port": "{{port}}",
-              "path": ["api", "employees", "employees", "{{employeeId}}"]
+              "path": [
+                "api",
+                "employees",
+                "update-employees",
+                "{{employeeId}}"
+              ]
             }
           },
           "response": []
@@ -263,14 +456,24 @@
           "request": {
             "method": "DELETE",
             "header": [
-              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
             ],
             "url": {
-              "raw": "http://{{baseUrl}}:{{port}}/api/employees/employees/{{employeeId}}",
+              "raw": "http://{{baseUrl}}:{{port}}/api/employees/delete-employees/{{employeeId}}",
               "protocol": "http",
-              "host": ["{{baseUrl}}"],
+              "host": [
+                "{{baseUrl}}"
+              ],
               "port": "{{port}}",
-              "path": ["api", "employees", "employees", "{{employeeId}}"]
+              "path": [
+                "api",
+                "employees",
+                "delete-employees",
+                "{{employeeId}}"
+              ]
             }
           },
           "response": []
@@ -285,8 +488,14 @@
           "request": {
             "method": "POST",
             "header": [
-              { "key": "Content-Type", "value": "application/json" },
-              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
             ],
             "body": {
               "mode": "raw",
@@ -295,9 +504,15 @@
             "url": {
               "raw": "http://{{baseUrl}}:{{port}}/api/branches/branches",
               "protocol": "http",
-              "host": ["{{baseUrl}}"],
+              "host": [
+                "{{baseUrl}}"
+              ],
               "port": "{{port}}",
-              "path": ["api", "branches", "branches"]
+              "path": [
+                "api",
+                "branches",
+                "branches"
+              ]
             }
           },
           "response": []
@@ -307,14 +522,23 @@
           "request": {
             "method": "GET",
             "header": [
-              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
             ],
             "url": {
               "raw": "http://{{baseUrl}}:{{port}}/api/branches/branches",
               "protocol": "http",
-              "host": ["{{baseUrl}}"],
+              "host": [
+                "{{baseUrl}}"
+              ],
               "port": "{{port}}",
-              "path": ["api", "branches", "branches"]
+              "path": [
+                "api",
+                "branches",
+                "branches"
+              ]
             }
           },
           "response": []
@@ -324,14 +548,24 @@
           "request": {
             "method": "GET",
             "header": [
-              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
             ],
             "url": {
               "raw": "http://{{baseUrl}}:{{port}}/api/branches/branches/{{branchId}}",
               "protocol": "http",
-              "host": ["{{baseUrl}}"],
+              "host": [
+                "{{baseUrl}}"
+              ],
               "port": "{{port}}",
-              "path": ["api", "branches", "branches", "{{branchId}}"]
+              "path": [
+                "api",
+                "branches",
+                "branches",
+                "{{branchId}}"
+              ]
             }
           },
           "response": []
@@ -341,8 +575,14 @@
           "request": {
             "method": "PUT",
             "header": [
-              { "key": "Content-Type", "value": "application/json" },
-              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
             ],
             "body": {
               "mode": "raw",
@@ -351,9 +591,16 @@
             "url": {
               "raw": "http://{{baseUrl}}:{{port}}/api/branches/branches/{{branchId}}",
               "protocol": "http",
-              "host": ["{{baseUrl}}"],
+              "host": [
+                "{{baseUrl}}"
+              ],
               "port": "{{port}}",
-              "path": ["api", "branches", "branches", "{{branchId}}"]
+              "path": [
+                "api",
+                "branches",
+                "branches",
+                "{{branchId}}"
+              ]
             }
           },
           "response": []
@@ -363,14 +610,24 @@
           "request": {
             "method": "DELETE",
             "header": [
-              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
             ],
             "url": {
               "raw": "http://{{baseUrl}}:{{port}}/api/branches/branches/{{branchId}}",
               "protocol": "http",
-              "host": ["{{baseUrl}}"],
+              "host": [
+                "{{baseUrl}}"
+              ],
               "port": "{{port}}",
-              "path": ["api", "branches", "branches", "{{branchId}}"]
+              "path": [
+                "api",
+                "branches",
+                "branches",
+                "{{branchId}}"
+              ]
             }
           },
           "response": []
@@ -385,19 +642,31 @@
           "request": {
             "method": "POST",
             "header": [
-              { "key": "Content-Type", "value": "application/json" },
-              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"customerId\": \"{{customerId}}\",\n  \"type\": \"checking\",\n  \"currency\": \"USD\",\n  \"balance\": 1000.0,\n  \"accountGroup\": \"personal\"\n}"
+              "raw": "{\n  \"customer\": \"{{customerId}}\",\n  \"branch\": \"{{branchId}}\",\n  \"type\": \"checking\",\n  \"currency\": \"USD\",\n  \"balance\": 1000.0\n}"
             },
             "url": {
               "raw": "http://{{baseUrl}}:{{port}}/api/accounts/accounts",
               "protocol": "http",
-              "host": ["{{baseUrl}}"],
+              "host": [
+                "{{baseUrl}}"
+              ],
               "port": "{{port}}",
-              "path": ["api", "accounts", "accounts"]
+              "path": [
+                "api",
+                "accounts",
+                "accounts"
+              ]
             }
           },
           "response": []
@@ -407,14 +676,23 @@
           "request": {
             "method": "GET",
             "header": [
-              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
             ],
             "url": {
               "raw": "http://{{baseUrl}}:{{port}}/api/accounts/accounts",
               "protocol": "http",
-              "host": ["{{baseUrl}}"],
+              "host": [
+                "{{baseUrl}}"
+              ],
               "port": "{{port}}",
-              "path": ["api", "accounts", "accounts"]
+              "path": [
+                "api",
+                "accounts",
+                "accounts"
+              ]
             }
           },
           "response": []
@@ -424,14 +702,24 @@
           "request": {
             "method": "GET",
             "header": [
-              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
             ],
             "url": {
               "raw": "http://{{baseUrl}}:{{port}}/api/accounts/accounts/{{accountId}}",
               "protocol": "http",
-              "host": ["{{baseUrl}}"],
+              "host": [
+                "{{baseUrl}}"
+              ],
               "port": "{{port}}",
-              "path": ["api", "accounts", "accounts", "{{accountId}}"]
+              "path": [
+                "api",
+                "accounts",
+                "accounts",
+                "{{accountId}}"
+              ]
             }
           },
           "response": []
@@ -441,8 +729,14 @@
           "request": {
             "method": "PUT",
             "header": [
-              { "key": "Content-Type", "value": "application/json" },
-              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
             ],
             "body": {
               "mode": "raw",
@@ -451,9 +745,16 @@
             "url": {
               "raw": "http://{{baseUrl}}:{{port}}/api/accounts/accounts/{{accountId}}",
               "protocol": "http",
-              "host": ["{{baseUrl}}"],
+              "host": [
+                "{{baseUrl}}"
+              ],
               "port": "{{port}}",
-              "path": ["api", "accounts", "accounts", "{{accountId}}"]
+              "path": [
+                "api",
+                "accounts",
+                "accounts",
+                "{{accountId}}"
+              ]
             }
           },
           "response": []
@@ -463,14 +764,24 @@
           "request": {
             "method": "DELETE",
             "header": [
-              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
             ],
             "url": {
               "raw": "http://{{baseUrl}}:{{port}}/api/accounts/accounts/{{accountId}}",
               "protocol": "http",
-              "host": ["{{baseUrl}}"],
+              "host": [
+                "{{baseUrl}}"
+              ],
               "port": "{{port}}",
-              "path": ["api", "accounts", "accounts", "{{accountId}}"]
+              "path": [
+                "api",
+                "accounts",
+                "accounts",
+                "{{accountId}}"
+              ]
             }
           },
           "response": []
@@ -480,8 +791,14 @@
           "request": {
             "method": "POST",
             "header": [
-              { "key": "Content-Type", "value": "application/json" },
-              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
             ],
             "body": {
               "mode": "raw",
@@ -490,9 +807,17 @@
             "url": {
               "raw": "http://{{baseUrl}}:{{port}}/api/accounts/accounts/{{accountId}}/deposit",
               "protocol": "http",
-              "host": ["{{baseUrl}}"],
+              "host": [
+                "{{baseUrl}}"
+              ],
               "port": "{{port}}",
-              "path": ["api", "accounts", "accounts", "{{accountId}}", "deposit"]
+              "path": [
+                "api",
+                "accounts",
+                "accounts",
+                "{{accountId}}",
+                "deposit"
+              ]
             }
           },
           "response": []
@@ -502,8 +827,14 @@
           "request": {
             "method": "POST",
             "header": [
-              { "key": "Content-Type", "value": "application/json" },
-              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
             ],
             "body": {
               "mode": "raw",
@@ -512,9 +843,17 @@
             "url": {
               "raw": "http://{{baseUrl}}:{{port}}/api/accounts/accounts/{{accountId}}/withdraw",
               "protocol": "http",
-              "host": ["{{baseUrl}}"],
+              "host": [
+                "{{baseUrl}}"
+              ],
               "port": "{{port}}",
-              "path": ["api", "accounts", "accounts", "{{accountId}}", "withdraw"]
+              "path": [
+                "api",
+                "accounts",
+                "accounts",
+                "{{accountId}}",
+                "withdraw"
+              ]
             }
           },
           "response": []
@@ -529,19 +868,31 @@
           "request": {
             "method": "POST",
             "header": [
-              { "key": "Content-Type", "value": "application/json" },
-              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"type\": \"transfer\",\n  \"fromAccountId\": \"{{accountId}}\",\n  \"toAccountId\": \"{{accountId}}\",\n  \"amount\": 50.0,\n  \"currency\": \"USD\",\n  \"beneficiaryAccountNumber\": \"1234567890\"\n}"
+              "raw": "{\n  \"type\": \"deposit\",\n  \"toAccountId\": \"{{accountId}}\",\n  \"amount\": 50.0,\n  \"currency\": \"USD\"\n}"
             },
             "url": {
               "raw": "http://{{baseUrl}}:{{port}}/api/transactions/transactions",
               "protocol": "http",
-              "host": ["{{baseUrl}}"],
+              "host": [
+                "{{baseUrl}}"
+              ],
               "port": "{{port}}",
-              "path": ["api", "transactions", "transactions"]
+              "path": [
+                "api",
+                "transactions",
+                "transactions"
+              ]
             }
           },
           "response": []
@@ -551,14 +902,23 @@
           "request": {
             "method": "GET",
             "header": [
-              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
             ],
             "url": {
               "raw": "http://{{baseUrl}}:{{port}}/api/transactions/transactions",
               "protocol": "http",
-              "host": ["{{baseUrl}}"],
+              "host": [
+                "{{baseUrl}}"
+              ],
               "port": "{{port}}",
-              "path": ["api", "transactions", "transactions"]
+              "path": [
+                "api",
+                "transactions",
+                "transactions"
+              ]
             }
           },
           "response": []
@@ -568,14 +928,24 @@
           "request": {
             "method": "GET",
             "header": [
-              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
             ],
             "url": {
               "raw": "http://{{baseUrl}}:{{port}}/api/transactions/transactions/{{transactionId}}",
               "protocol": "http",
-              "host": ["{{baseUrl}}"],
+              "host": [
+                "{{baseUrl}}"
+              ],
               "port": "{{port}}",
-              "path": ["api", "transactions", "transactions", "{{transactionId}}"]
+              "path": [
+                "api",
+                "transactions",
+                "transactions",
+                "{{transactionId}}"
+              ]
             }
           },
           "response": []
@@ -585,14 +955,25 @@
           "request": {
             "method": "PUT",
             "header": [
-              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
             ],
             "url": {
               "raw": "http://{{baseUrl}}:{{port}}/api/transactions/transactions/{{transactionId}}/approve",
               "protocol": "http",
-              "host": ["{{baseUrl}}"],
+              "host": [
+                "{{baseUrl}}"
+              ],
               "port": "{{port}}",
-              "path": ["api", "transactions", "transactions", "{{transactionId}}", "approve"]
+              "path": [
+                "api",
+                "transactions",
+                "transactions",
+                "{{transactionId}}",
+                "approve"
+              ]
             }
           },
           "response": []
@@ -607,19 +988,31 @@
           "request": {
             "method": "POST",
             "header": [
-              { "key": "Content-Type", "value": "application/json" },
-              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"customerId\": \"{{customerId}}\",\n  \"principal\": 5000,\n  \"interestRate\": 5.5,\n  \"termMonths\": 24\n}"
+              "raw": "{\n  \"amount\": 5000,\n  \"interestRate\": 5.5,\n  \"termMonths\": 24,\n  \"purpose\": \"Home renovation\"\n}"
             },
             "url": {
               "raw": "http://{{baseUrl}}:{{port}}/api/loans/loans",
               "protocol": "http",
-              "host": ["{{baseUrl}}"],
+              "host": [
+                "{{baseUrl}}"
+              ],
               "port": "{{port}}",
-              "path": ["api", "loans", "loans"]
+              "path": [
+                "api",
+                "loans",
+                "loans"
+              ]
             }
           },
           "response": []
@@ -629,14 +1022,23 @@
           "request": {
             "method": "GET",
             "header": [
-              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
             ],
             "url": {
               "raw": "http://{{baseUrl}}:{{port}}/api/loans/loans",
               "protocol": "http",
-              "host": ["{{baseUrl}}"],
+              "host": [
+                "{{baseUrl}}"
+              ],
               "port": "{{port}}",
-              "path": ["api", "loans", "loans"]
+              "path": [
+                "api",
+                "loans",
+                "loans"
+              ]
             }
           },
           "response": []
@@ -646,14 +1048,24 @@
           "request": {
             "method": "GET",
             "header": [
-              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
             ],
             "url": {
               "raw": "http://{{baseUrl}}:{{port}}/api/loans/loans/{{loanId}}",
               "protocol": "http",
-              "host": ["{{baseUrl}}"],
+              "host": [
+                "{{baseUrl}}"
+              ],
               "port": "{{port}}",
-              "path": ["api", "loans", "loans", "{{loanId}}"]
+              "path": [
+                "api",
+                "loans",
+                "loans",
+                "{{loanId}}"
+              ]
             }
           },
           "response": []
@@ -663,8 +1075,14 @@
           "request": {
             "method": "PUT",
             "header": [
-              { "key": "Content-Type", "value": "application/json" },
-              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
             ],
             "body": {
               "mode": "raw",
@@ -673,9 +1091,16 @@
             "url": {
               "raw": "http://{{baseUrl}}:{{port}}/api/loans/loans/{{loanId}}",
               "protocol": "http",
-              "host": ["{{baseUrl}}"],
+              "host": [
+                "{{baseUrl}}"
+              ],
               "port": "{{port}}",
-              "path": ["api", "loans", "loans", "{{loanId}}"]
+              "path": [
+                "api",
+                "loans",
+                "loans",
+                "{{loanId}}"
+              ]
             }
           },
           "response": []
@@ -685,8 +1110,14 @@
           "request": {
             "method": "PUT",
             "header": [
-              { "key": "Content-Type", "value": "application/json" },
-              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
             ],
             "body": {
               "mode": "raw",
@@ -695,9 +1126,17 @@
             "url": {
               "raw": "http://{{baseUrl}}:{{port}}/api/loans/loans/{{loanId}}/status",
               "protocol": "http",
-              "host": ["{{baseUrl}}"],
+              "host": [
+                "{{baseUrl}}"
+              ],
               "port": "{{port}}",
-              "path": ["api", "loans", "loans", "{{loanId}}", "status"]
+              "path": [
+                "api",
+                "loans",
+                "loans",
+                "{{loanId}}",
+                "status"
+              ]
             }
           },
           "response": []
@@ -707,14 +1146,24 @@
           "request": {
             "method": "DELETE",
             "header": [
-              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
             ],
             "url": {
               "raw": "http://{{baseUrl}}:{{port}}/api/loans/loans/{{loanId}}",
               "protocol": "http",
-              "host": ["{{baseUrl}}"],
+              "host": [
+                "{{baseUrl}}"
+              ],
               "port": "{{port}}",
-              "path": ["api", "loans", "loans", "{{loanId}}"]
+              "path": [
+                "api",
+                "loans",
+                "loans",
+                "{{loanId}}"
+              ]
             }
           },
           "response": []
@@ -729,19 +1178,31 @@
           "request": {
             "method": "POST",
             "header": [
-              { "key": "Content-Type", "value": "application/json" },
-              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"customerId\": \"{{customerId}}\",\n  \"beneficiaryAccountNumber\": \"9876543210\",\n  \"beneficiaryName\": \"Jane Doe\",\n  \"bankName\": \"NeoBank\",\n  \"status\": \"pending\"\n}"
+              "raw": "{\n  \"customerId\": \"{{customerId}}\",\n  \"beneficiaryAccountNumber\": \"9876543210\",\n  \"beneficiaryName\": \"Jane Doe\",\n  \"bankName\": \"NeoBank\",\n  \"status\": \"approved\"\n}"
             },
             "url": {
               "raw": "http://{{baseUrl}}:{{port}}/api/beneficiaries/beneficiaries",
               "protocol": "http",
-              "host": ["{{baseUrl}}"],
+              "host": [
+                "{{baseUrl}}"
+              ],
               "port": "{{port}}",
-              "path": ["api", "beneficiaries", "beneficiaries"]
+              "path": [
+                "api",
+                "beneficiaries",
+                "beneficiaries"
+              ]
             }
           },
           "response": []
@@ -751,14 +1212,23 @@
           "request": {
             "method": "GET",
             "header": [
-              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
             ],
             "url": {
               "raw": "http://{{baseUrl}}:{{port}}/api/beneficiaries/beneficiaries",
               "protocol": "http",
-              "host": ["{{baseUrl}}"],
+              "host": [
+                "{{baseUrl}}"
+              ],
               "port": "{{port}}",
-              "path": ["api", "beneficiaries", "beneficiaries"]
+              "path": [
+                "api",
+                "beneficiaries",
+                "beneficiaries"
+              ]
             }
           },
           "response": []
@@ -768,14 +1238,24 @@
           "request": {
             "method": "GET",
             "header": [
-              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
             ],
             "url": {
               "raw": "http://{{baseUrl}}:{{port}}/api/beneficiaries/beneficiaries/{{beneficiaryId}}",
               "protocol": "http",
-              "host": ["{{baseUrl}}"],
+              "host": [
+                "{{baseUrl}}"
+              ],
               "port": "{{port}}",
-              "path": ["api", "beneficiaries", "beneficiaries", "{{beneficiaryId}}"]
+              "path": [
+                "api",
+                "beneficiaries",
+                "beneficiaries",
+                "{{beneficiaryId}}"
+              ]
             }
           },
           "response": []
@@ -785,8 +1265,14 @@
           "request": {
             "method": "PUT",
             "header": [
-              { "key": "Content-Type", "value": "application/json" },
-              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
             ],
             "body": {
               "mode": "raw",
@@ -795,9 +1281,16 @@
             "url": {
               "raw": "http://{{baseUrl}}:{{port}}/api/beneficiaries/beneficiaries/{{beneficiaryId}}",
               "protocol": "http",
-              "host": ["{{baseUrl}}"],
+              "host": [
+                "{{baseUrl}}"
+              ],
               "port": "{{port}}",
-              "path": ["api", "beneficiaries", "beneficiaries", "{{beneficiaryId}}"]
+              "path": [
+                "api",
+                "beneficiaries",
+                "beneficiaries",
+                "{{beneficiaryId}}"
+              ]
             }
           },
           "response": []
@@ -807,8 +1300,14 @@
           "request": {
             "method": "PUT",
             "header": [
-              { "key": "Content-Type", "value": "application/json" },
-              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
             ],
             "body": {
               "mode": "raw",
@@ -817,9 +1316,17 @@
             "url": {
               "raw": "http://{{baseUrl}}:{{port}}/api/beneficiaries/beneficiaries/{{beneficiaryId}}/status",
               "protocol": "http",
-              "host": ["{{baseUrl}}"],
+              "host": [
+                "{{baseUrl}}"
+              ],
               "port": "{{port}}",
-              "path": ["api", "beneficiaries", "beneficiaries", "{{beneficiaryId}}", "status"]
+              "path": [
+                "api",
+                "beneficiaries",
+                "beneficiaries",
+                "{{beneficiaryId}}",
+                "status"
+              ]
             }
           },
           "response": []
@@ -829,14 +1336,24 @@
           "request": {
             "method": "DELETE",
             "header": [
-              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
             ],
             "url": {
               "raw": "http://{{baseUrl}}:{{port}}/api/beneficiaries/beneficiaries/{{beneficiaryId}}",
               "protocol": "http",
-              "host": ["{{baseUrl}}"],
+              "host": [
+                "{{baseUrl}}"
+              ],
               "port": "{{port}}",
-              "path": ["api", "beneficiaries", "beneficiaries", "{{beneficiaryId}}"]
+              "path": [
+                "api",
+                "beneficiaries",
+                "beneficiaries",
+                "{{beneficiaryId}}"
+              ]
             }
           },
           "response": []
@@ -851,19 +1368,30 @@
           "request": {
             "method": "POST",
             "header": [
-              { "key": "Content-Type", "value": "application/json" },
-              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
             ],
             "body": {
               "mode": "raw",
               "raw": "{\n  \"accountId\": \"{{accountId}}\",\n  \"type\": \"debit\",\n  \"last4\": \"1234\",\n  \"status\": \"requested\"\n}"
             },
             "url": {
-              "raw": "http://{{baseUrl}}:{{port}}/api/cards/cards",
+              "raw": "http://{{baseUrl}}:{{port}}/api/cards",
               "protocol": "http",
-              "host": ["{{baseUrl}}"],
+              "host": [
+                "{{baseUrl}}"
+              ],
               "port": "{{port}}",
-              "path": ["api", "cards", "cards"]
+              "path": [
+                "api",
+                "cards"
+              ]
             }
           },
           "response": []
@@ -873,14 +1401,23 @@
           "request": {
             "method": "GET",
             "header": [
-              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
             ],
             "url": {
-              "raw": "http://{{baseUrl}}:{{port}}/api/cards/cards/mine",
+              "raw": "http://{{baseUrl}}:{{port}}/api/cards/mine",
               "protocol": "http",
-              "host": ["{{baseUrl}}"],
+              "host": [
+                "{{baseUrl}}"
+              ],
               "port": "{{port}}",
-              "path": ["api", "cards", "cards", "mine"]
+              "path": [
+                "api",
+                "cards",
+                "mine"
+              ]
             }
           },
           "response": []
@@ -890,14 +1427,22 @@
           "request": {
             "method": "GET",
             "header": [
-              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
             ],
             "url": {
-              "raw": "http://{{baseUrl}}:{{port}}/api/cards/cards",
+              "raw": "http://{{baseUrl}}:{{port}}/api/cards",
               "protocol": "http",
-              "host": ["{{baseUrl}}"],
+              "host": [
+                "{{baseUrl}}"
+              ],
               "port": "{{port}}",
-              "path": ["api", "cards", "cards"]
+              "path": [
+                "api",
+                "cards"
+              ]
             }
           },
           "response": []
@@ -907,14 +1452,23 @@
           "request": {
             "method": "GET",
             "header": [
-              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
             ],
             "url": {
-              "raw": "http://{{baseUrl}}:{{port}}/api/cards/cards/{{cardId}}",
+              "raw": "http://{{baseUrl}}:{{port}}/api/cards/{{cardId}}",
               "protocol": "http",
-              "host": ["{{baseUrl}}"],
+              "host": [
+                "{{baseUrl}}"
+              ],
               "port": "{{port}}",
-              "path": ["api", "cards", "cards", "{{cardId}}"]
+              "path": [
+                "api",
+                "cards",
+                "{{cardId}}"
+              ]
             }
           },
           "response": []
@@ -924,19 +1478,32 @@
           "request": {
             "method": "PUT",
             "header": [
-              { "key": "Content-Type", "value": "application/json" },
-              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
             ],
             "body": {
               "mode": "raw",
               "raw": "{\n  \"status\": \"active\"\n}"
             },
             "url": {
-              "raw": "http://{{baseUrl}}:{{port}}/api/cards/cards/{{cardId}}/status",
+              "raw": "http://{{baseUrl}}:{{port}}/api/cards/{{cardId}}/status",
               "protocol": "http",
-              "host": ["{{baseUrl}}"],
+              "host": [
+                "{{baseUrl}}"
+              ],
               "port": "{{port}}",
-              "path": ["api", "cards", "cards", "{{cardId}}", "status"]
+              "path": [
+                "api",
+                "cards",
+                "{{cardId}}",
+                "status"
+              ]
             }
           },
           "response": []
@@ -946,14 +1513,24 @@
           "request": {
             "method": "PUT",
             "header": [
-              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
             ],
             "url": {
-              "raw": "http://{{baseUrl}}:{{port}}/api/cards/cards/{{cardId}}/cancel",
+              "raw": "http://{{baseUrl}}:{{port}}/api/cards/{{cardId}}/cancel",
               "protocol": "http",
-              "host": ["{{baseUrl}}"],
+              "host": [
+                "{{baseUrl}}"
+              ],
               "port": "{{port}}",
-              "path": ["api", "cards", "cards", "{{cardId}}", "cancel"]
+              "path": [
+                "api",
+                "cards",
+                "{{cardId}}",
+                "cancel"
+              ]
             }
           },
           "response": []
@@ -968,8 +1545,14 @@
           "request": {
             "method": "POST",
             "header": [
-              { "key": "Content-Type", "value": "application/json" },
-              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
             ],
             "body": {
               "mode": "raw",
@@ -978,9 +1561,15 @@
             "url": {
               "raw": "http://{{baseUrl}}:{{port}}/api/notifications/notifications",
               "protocol": "http",
-              "host": ["{{baseUrl}}"],
+              "host": [
+                "{{baseUrl}}"
+              ],
               "port": "{{port}}",
-              "path": ["api", "notifications", "notifications"]
+              "path": [
+                "api",
+                "notifications",
+                "notifications"
+              ]
             }
           },
           "response": []
@@ -990,14 +1579,24 @@
           "request": {
             "method": "GET",
             "header": [
-              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
             ],
             "url": {
               "raw": "http://{{baseUrl}}:{{port}}/api/notifications/notifications/admin",
               "protocol": "http",
-              "host": ["{{baseUrl}}"],
+              "host": [
+                "{{baseUrl}}"
+              ],
               "port": "{{port}}",
-              "path": ["api", "notifications", "notifications", "admin"]
+              "path": [
+                "api",
+                "notifications",
+                "notifications",
+                "admin"
+              ]
             }
           },
           "response": []
@@ -1007,14 +1606,24 @@
           "request": {
             "method": "GET",
             "header": [
-              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
             ],
             "url": {
               "raw": "http://{{baseUrl}}:{{port}}/api/notifications/notifications/{{notificationId}}",
               "protocol": "http",
-              "host": ["{{baseUrl}}"],
+              "host": [
+                "{{baseUrl}}"
+              ],
               "port": "{{port}}",
-              "path": ["api", "notifications", "notifications", "{{notificationId}}"]
+              "path": [
+                "api",
+                "notifications",
+                "notifications",
+                "{{notificationId}}"
+              ]
             }
           },
           "response": []
@@ -1024,14 +1633,24 @@
           "request": {
             "method": "GET",
             "header": [
-              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
             ],
             "url": {
               "raw": "http://{{baseUrl}}:{{port}}/api/notifications/notifications/mine",
               "protocol": "http",
-              "host": ["{{baseUrl}}"],
+              "host": [
+                "{{baseUrl}}"
+              ],
               "port": "{{port}}",
-              "path": ["api", "notifications", "notifications", "mine"]
+              "path": [
+                "api",
+                "notifications",
+                "notifications",
+                "mine"
+              ]
             }
           },
           "response": []
@@ -1041,14 +1660,25 @@
           "request": {
             "method": "PUT",
             "header": [
-              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
             ],
             "url": {
               "raw": "http://{{baseUrl}}:{{port}}/api/notifications/notifications/{{notificationId}}/read",
               "protocol": "http",
-              "host": ["{{baseUrl}}"],
+              "host": [
+                "{{baseUrl}}"
+              ],
               "port": "{{port}}",
-              "path": ["api", "notifications", "notifications", "{{notificationId}}", "read"]
+              "path": [
+                "api",
+                "notifications",
+                "notifications",
+                "{{notificationId}}",
+                "read"
+              ]
             }
           },
           "response": []
@@ -1058,14 +1688,24 @@
           "request": {
             "method": "PUT",
             "header": [
-              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
             ],
             "url": {
               "raw": "http://{{baseUrl}}:{{port}}/api/notifications/notifications/read-all",
               "protocol": "http",
-              "host": ["{{baseUrl}}"],
+              "host": [
+                "{{baseUrl}}"
+              ],
               "port": "{{port}}",
-              "path": ["api", "notifications", "notifications", "read-all"]
+              "path": [
+                "api",
+                "notifications",
+                "notifications",
+                "read-all"
+              ]
             }
           },
           "response": []
@@ -1075,14 +1715,24 @@
           "request": {
             "method": "DELETE",
             "header": [
-              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
             ],
             "url": {
               "raw": "http://{{baseUrl}}:{{port}}/api/notifications/notifications/{{notificationId}}",
               "protocol": "http",
-              "host": ["{{baseUrl}}"],
+              "host": [
+                "{{baseUrl}}"
+              ],
               "port": "{{port}}",
-              "path": ["api", "notifications", "notifications", "{{notificationId}}"]
+              "path": [
+                "api",
+                "notifications",
+                "notifications",
+                "{{notificationId}}"
+              ]
             }
           },
           "response": []
@@ -1097,8 +1747,14 @@
           "request": {
             "method": "POST",
             "header": [
-              { "key": "Content-Type", "value": "application/json" },
-              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
             ],
             "body": {
               "mode": "raw",
@@ -1107,9 +1763,15 @@
             "url": {
               "raw": "http://{{baseUrl}}:{{port}}/api/teams/teams",
               "protocol": "http",
-              "host": ["{{baseUrl}}"],
+              "host": [
+                "{{baseUrl}}"
+              ],
               "port": "{{port}}",
-              "path": ["api", "teams", "teams"]
+              "path": [
+                "api",
+                "teams",
+                "teams"
+              ]
             }
           },
           "response": []
@@ -1119,14 +1781,23 @@
           "request": {
             "method": "GET",
             "header": [
-              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
             ],
             "url": {
               "raw": "http://{{baseUrl}}:{{port}}/api/teams/teams",
               "protocol": "http",
-              "host": ["{{baseUrl}}"],
+              "host": [
+                "{{baseUrl}}"
+              ],
               "port": "{{port}}",
-              "path": ["api", "teams", "teams"]
+              "path": [
+                "api",
+                "teams",
+                "teams"
+              ]
             }
           },
           "response": []
@@ -1136,14 +1807,24 @@
           "request": {
             "method": "GET",
             "header": [
-              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
             ],
             "url": {
               "raw": "http://{{baseUrl}}:{{port}}/api/teams/teams/{{teamId}}",
               "protocol": "http",
-              "host": ["{{baseUrl}}"],
+              "host": [
+                "{{baseUrl}}"
+              ],
               "port": "{{port}}",
-              "path": ["api", "teams", "teams", "{{teamId}}"]
+              "path": [
+                "api",
+                "teams",
+                "teams",
+                "{{teamId}}"
+              ]
             }
           },
           "response": []
@@ -1153,8 +1834,14 @@
           "request": {
             "method": "PUT",
             "header": [
-              { "key": "Content-Type", "value": "application/json" },
-              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
             ],
             "body": {
               "mode": "raw",
@@ -1163,9 +1850,16 @@
             "url": {
               "raw": "http://{{baseUrl}}:{{port}}/api/teams/teams/{{teamId}}",
               "protocol": "http",
-              "host": ["{{baseUrl}}"],
+              "host": [
+                "{{baseUrl}}"
+              ],
               "port": "{{port}}",
-              "path": ["api", "teams", "teams", "{{teamId}}"]
+              "path": [
+                "api",
+                "teams",
+                "teams",
+                "{{teamId}}"
+              ]
             }
           },
           "response": []
@@ -1175,14 +1869,24 @@
           "request": {
             "method": "DELETE",
             "header": [
-              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
             ],
             "url": {
               "raw": "http://{{baseUrl}}:{{port}}/api/teams/teams/{{teamId}}",
               "protocol": "http",
-              "host": ["{{baseUrl}}"],
+              "host": [
+                "{{baseUrl}}"
+              ],
               "port": "{{port}}",
-              "path": ["api", "teams", "teams", "{{teamId}}"]
+              "path": [
+                "api",
+                "teams",
+                "teams",
+                "{{teamId}}"
+              ]
             }
           },
           "response": []
@@ -1192,8 +1896,14 @@
           "request": {
             "method": "PUT",
             "header": [
-              { "key": "Content-Type", "value": "application/json" },
-              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
             ],
             "body": {
               "mode": "raw",
@@ -1202,9 +1912,17 @@
             "url": {
               "raw": "http://{{baseUrl}}:{{port}}/api/teams/teams/{{teamId}}/add-member",
               "protocol": "http",
-              "host": ["{{baseUrl}}"],
+              "host": [
+                "{{baseUrl}}"
+              ],
               "port": "{{port}}",
-              "path": ["api", "teams", "teams", "{{teamId}}", "add-member"]
+              "path": [
+                "api",
+                "teams",
+                "teams",
+                "{{teamId}}",
+                "add-member"
+              ]
             }
           },
           "response": []
@@ -1214,8 +1932,14 @@
           "request": {
             "method": "PUT",
             "header": [
-              { "key": "Content-Type", "value": "application/json" },
-              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
             ],
             "body": {
               "mode": "raw",
@@ -1224,9 +1948,17 @@
             "url": {
               "raw": "http://{{baseUrl}}:{{port}}/api/teams/teams/{{teamId}}/remove-member",
               "protocol": "http",
-              "host": ["{{baseUrl}}"],
+              "host": [
+                "{{baseUrl}}"
+              ],
               "port": "{{port}}",
-              "path": ["api", "teams", "teams", "{{teamId}}", "remove-member"]
+              "path": [
+                "api",
+                "teams",
+                "teams",
+                "{{teamId}}",
+                "remove-member"
+              ]
             }
           },
           "response": []
@@ -1241,14 +1973,23 @@
           "request": {
             "method": "GET",
             "header": [
-              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
             ],
             "url": {
               "raw": "http://{{baseUrl}}:{{port}}/api/system-settings/systemSettings",
               "protocol": "http",
-              "host": ["{{baseUrl}}"],
+              "host": [
+                "{{baseUrl}}"
+              ],
               "port": "{{port}}",
-              "path": ["api", "system-settings", "systemSettings"]
+              "path": [
+                "api",
+                "system-settings",
+                "systemSettings"
+              ]
             }
           },
           "response": []
@@ -1258,8 +1999,14 @@
           "request": {
             "method": "PUT",
             "header": [
-              { "key": "Content-Type", "value": "application/json" },
-              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
             ],
             "body": {
               "mode": "raw",
@@ -1268,9 +2015,15 @@
             "url": {
               "raw": "http://{{baseUrl}}:{{port}}/api/system-settings/systemSettings",
               "protocol": "http",
-              "host": ["{{baseUrl}}"],
+              "host": [
+                "{{baseUrl}}"
+              ],
               "port": "{{port}}",
-              "path": ["api", "system-settings", "systemSettings"]
+              "path": [
+                "api",
+                "system-settings",
+                "systemSettings"
+              ]
             }
           },
           "response": []
@@ -1285,8 +2038,14 @@
           "request": {
             "method": "POST",
             "header": [
-              { "key": "Content-Type", "value": "application/json" },
-              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
             ],
             "body": {
               "mode": "raw",
@@ -1295,9 +2054,15 @@
             "url": {
               "raw": "http://{{baseUrl}}:{{port}}/api/fraud-alerts/fraudAlerts",
               "protocol": "http",
-              "host": ["{{baseUrl}}"],
+              "host": [
+                "{{baseUrl}}"
+              ],
               "port": "{{port}}",
-              "path": ["api", "fraud-alerts", "fraudAlerts"]
+              "path": [
+                "api",
+                "fraud-alerts",
+                "fraudAlerts"
+              ]
             }
           },
           "response": []
@@ -1307,14 +2072,23 @@
           "request": {
             "method": "GET",
             "header": [
-              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
             ],
             "url": {
               "raw": "http://{{baseUrl}}:{{port}}/api/fraud-alerts/fraudAlerts",
               "protocol": "http",
-              "host": ["{{baseUrl}}"],
+              "host": [
+                "{{baseUrl}}"
+              ],
               "port": "{{port}}",
-              "path": ["api", "fraud-alerts", "fraudAlerts"]
+              "path": [
+                "api",
+                "fraud-alerts",
+                "fraudAlerts"
+              ]
             }
           },
           "response": []
@@ -1324,14 +2098,24 @@
           "request": {
             "method": "GET",
             "header": [
-              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
             ],
             "url": {
               "raw": "http://{{baseUrl}}:{{port}}/api/fraud-alerts/fraudAlerts/{{auditLogId}}",
               "protocol": "http",
-              "host": ["{{baseUrl}}"],
+              "host": [
+                "{{baseUrl}}"
+              ],
               "port": "{{port}}",
-              "path": ["api", "fraud-alerts", "fraudAlerts", "{{auditLogId}}"]
+              "path": [
+                "api",
+                "fraud-alerts",
+                "fraudAlerts",
+                "{{auditLogId}}"
+              ]
             }
           },
           "response": []
@@ -1341,8 +2125,14 @@
           "request": {
             "method": "PUT",
             "header": [
-              { "key": "Content-Type", "value": "application/json" },
-              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
             ],
             "body": {
               "mode": "raw",
@@ -1351,9 +2141,16 @@
             "url": {
               "raw": "http://{{baseUrl}}:{{port}}/api/fraud-alerts/fraudAlerts/{{auditLogId}}",
               "protocol": "http",
-              "host": ["{{baseUrl}}"],
+              "host": [
+                "{{baseUrl}}"
+              ],
               "port": "{{port}}",
-              "path": ["api", "fraud-alerts", "fraudAlerts", "{{auditLogId}}"]
+              "path": [
+                "api",
+                "fraud-alerts",
+                "fraudAlerts",
+                "{{auditLogId}}"
+              ]
             }
           },
           "response": []
@@ -1363,8 +2160,14 @@
           "request": {
             "method": "PUT",
             "header": [
-              { "key": "Content-Type", "value": "application/json" },
-              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
             ],
             "body": {
               "mode": "raw",
@@ -1373,9 +2176,17 @@
             "url": {
               "raw": "http://{{baseUrl}}:{{port}}/api/fraud-alerts/fraudAlerts/{{auditLogId}}/status",
               "protocol": "http",
-              "host": ["{{baseUrl}}"],
+              "host": [
+                "{{baseUrl}}"
+              ],
               "port": "{{port}}",
-              "path": ["api", "fraud-alerts", "fraudAlerts", "{{auditLogId}}", "status"]
+              "path": [
+                "api",
+                "fraud-alerts",
+                "fraudAlerts",
+                "{{auditLogId}}",
+                "status"
+              ]
             }
           },
           "response": []
@@ -1385,14 +2196,23 @@
           "request": {
             "method": "DELETE",
             "header": [
-              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
             ],
             "url": {
               "raw": "http://{{baseUrl}}:{{port}}/api/fraud-alerts/fraudAlerts",
               "protocol": "http",
-              "host": ["{{baseUrl}}"],
+              "host": [
+                "{{baseUrl}}"
+              ],
               "port": "{{port}}",
-              "path": ["api", "fraud-alerts", "fraudAlerts"]
+              "path": [
+                "api",
+                "fraud-alerts",
+                "fraudAlerts"
+              ]
             }
           },
           "response": []
@@ -1407,14 +2227,22 @@
           "request": {
             "method": "GET",
             "header": [
-              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
             ],
             "url": {
-              "raw": "http://{{baseUrl}}:{{port}}/api/audit-logs/",
+              "raw": "http://{{baseUrl}}:{{port}}/api/audit-logs",
               "protocol": "http",
-              "host": ["{{baseUrl}}"],
+              "host": [
+                "{{baseUrl}}"
+              ],
               "port": "{{port}}",
-              "path": ["api", "audit-logs", ""]
+              "path": [
+                "api",
+                "audit-logs"
+              ]
             }
           },
           "response": []
@@ -1424,14 +2252,24 @@
           "request": {
             "method": "GET",
             "header": [
-              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
             ],
             "url": {
               "raw": "http://{{baseUrl}}:{{port}}/api/audit-logs/actor/{{actorId}}",
               "protocol": "http",
-              "host": ["{{baseUrl}}"],
+              "host": [
+                "{{baseUrl}}"
+              ],
               "port": "{{port}}",
-              "path": ["api", "audit-logs", "actor", "{{actorId}}"]
+              "path": [
+                "api",
+                "audit-logs",
+                "actor",
+                "{{actorId}}"
+              ]
             }
           },
           "response": []
@@ -1441,14 +2279,25 @@
           "request": {
             "method": "GET",
             "header": [
-              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
             ],
             "url": {
               "raw": "http://{{baseUrl}}:{{port}}/api/audit-logs/entity/{{entityType}}/{{entityId}}",
               "protocol": "http",
-              "host": ["{{baseUrl}}"],
+              "host": [
+                "{{baseUrl}}"
+              ],
               "port": "{{port}}",
-              "path": ["api", "audit-logs", "entity", "{{entityType}}", "{{entityId}}"]
+              "path": [
+                "api",
+                "audit-logs",
+                "entity",
+                "{{entityType}}",
+                "{{entityId}}"
+              ]
             }
           },
           "response": []
@@ -1458,14 +2307,23 @@
           "request": {
             "method": "GET",
             "header": [
-              { "key": "Authorization", "value": "Bearer {{authToken}}" }
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
             ],
             "url": {
               "raw": "http://{{baseUrl}}:{{port}}/api/audit-logs/{{auditLogId}}",
               "protocol": "http",
-              "host": ["{{baseUrl}}"],
+              "host": [
+                "{{baseUrl}}"
+              ],
               "port": "{{port}}",
-              "path": ["api", "audit-logs", "{{auditLogId}}"]
+              "path": [
+                "api",
+                "audit-logs",
+                "{{auditLogId}}"
+              ]
             }
           },
           "response": []

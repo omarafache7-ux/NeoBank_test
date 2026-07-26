@@ -13,5 +13,7 @@ router.put('/accounts/:id', restrictTo('teller', 'branch-manager', 'admin'), acc
 router.delete('/accounts/:id', restrictTo('admin'), accountController.deleteAccount);
 router.post('/accounts/:id/deposit', restrictTo('customer', 'teller', 'admin'), accountController.deposit);
 router.post('/accounts/:id/withdraw', restrictTo('customer', 'teller', 'admin'), accountController.withdraw);
+router.get('/accounts-opened',restrictTo('teller'),accountController.getAccountsOpenedToday)
+router.get('/accounts/:id/transactions',restrictTo('customer,teller'),accountController.getAccountTransactions)
 
 module.exports = router;

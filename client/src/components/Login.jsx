@@ -47,6 +47,9 @@ const Login = () => {
       if (user?.role === 'customer') {
         navigate('/customer-dashboard');
       }
+      else if(user?.role==='employee'){
+        navigate('/admin-users')
+      }
     } catch (err) {
       setError(err?.response?.data?.message || 'Login failed');
     } finally {

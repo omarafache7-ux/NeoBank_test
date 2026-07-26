@@ -7,7 +7,7 @@ const AuthContext = createContext({
 
 export const AuthProvider = ({ children }) => {
     const [auth, setAuth] = useState(() => {
-        const savedToken = localStorage.getItem("token");
+        const savedToken = localStorage.getItem("jwt") || localStorage.getItem("token");
         const savedUser = localStorage.getItem("user");
         const parsedUser = savedUser ? JSON.parse(savedUser) : null;
 
@@ -15,20 +15,25 @@ export const AuthProvider = ({ children }) => {
             token: savedToken || null,
             user: parsedUser,
             userId: parsedUser?._id || parsedUser?.id || null,
-            role: parsedUser?.role || null,
+            role: parsedUser?.role || localStorage.getItem("role") || null,
         };
     });
 
-    // Automatically keep localStorage in sync whenever `auth` updates
+    // Keep localStorage synced whenever `auth` updates
     useEffect(() => {
         if (auth.token) {
             localStorage.setItem("token", auth.token);
             if (auth.user) {
                 localStorage.setItem("user", JSON.stringify(auth.user));
             }
+            if (auth.role) {
+                localStorage.setItem("role", auth.role);
+            }
         } else {
+            localStorage.removeItem("jwt");
             localStorage.removeItem("token");
             localStorage.removeItem("user");
+            localStorage.removeItem("role");
         }
     }, [auth]);
 

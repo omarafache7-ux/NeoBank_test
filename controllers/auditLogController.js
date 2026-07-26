@@ -1,6 +1,5 @@
 const AuditLog = require("../models/auditLogSchema");
 
-
 exports.getAllLogs = async (req, res) => {
   try {
     const {
@@ -14,7 +13,6 @@ exports.getAllLogs = async (req, res) => {
       endDate,
     } = req.query;
 
-    // Build filter object dynamically
     const filter = {};
 
     if (action) filter.action = action;
@@ -58,12 +56,11 @@ exports.getAllLogs = async (req, res) => {
   }
 };
 
-
 exports.getLogById = async (req, res) => {
   try {
     const log = await AuditLog.findById(req.params.id).populate(
       "actorId",
-      "firstName lastName email role"
+      "firstName lastName email role",
     );
 
     if (!log) {
@@ -78,7 +75,6 @@ exports.getLogById = async (req, res) => {
     res.status(500).json({ status: "error", message: err.message });
   }
 };
-
 
 exports.getLogsByActor = async (req, res) => {
   try {
@@ -112,7 +108,6 @@ exports.getLogsByActor = async (req, res) => {
     res.status(500).json({ status: "error", message: err.message });
   }
 };
-
 
 exports.getLogsByEntity = async (req, res) => {
   try {

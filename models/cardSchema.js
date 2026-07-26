@@ -17,10 +17,10 @@ const cardSchema = new Schema(
     last4: { type: String, 
         required: true, 
         minlength: 4, 
-        maxlength: 4 }, // never store full PAN/CVV — see note below
+        maxlength: 4 }, // never store full PAN/CVV
     status: {
       type: String,
-      enum: ["requested", "active", "blocked", "expired"],
+      enum: ["requested", "active", "blocked", "expired","cancelled"],
       default: "requested",
     },
     expiryDate: { type: Date, required: true },

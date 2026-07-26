@@ -3,32 +3,34 @@ const Customer = require("../models/customerSchema");
 const { recordLog } = require("../utils/auditLogger");
 const { generateAmortizationSchedule } = require("../utils/loanService");
 
-// --- CREATE LOAN APPLICATION ---
+
 exports.createLoan = async (req, res) => {
   try {
-    const { customerId, principal, interestRate, termMonths } = req.body;
+    const { amount, principal, interestRate, termMonths, purpose } = req.body;
+    const loanPrincipal = amount || principal;
+    const defaultInterestRate = interestRate || 10.5;
 
-    if (!customerId || !principal || !interestRate || !termMonths) {
+    if (!loanPrincipal || !termMonths) {
       return res.status(400).json({
         status: "fail",
-        message: "customerId, principal, interestRate, and termMonths are required.",
+        message: "Loan amount and term months are required.",
       });
     }
 
-    const customerExists = await Customer.exists({ _id: customerId });
-    if (!customerExists) {
+    const customer = await Customer.findOne({ user: req.user._id });
+    if (!customer) {
       return res.status(404).json({
         status: "fail",
-        message: "Customer not found.",
+        message: "Customer profile not found for this user account.",
       });
     }
 
-    // Force strict defaults — ignore any status, repaymentSchedule, or loanOfficerId sent by client
     const loan = await Loan.create({
-      customerId,
-      principal,
-      interestRate,
+      customerId: customer._id,
+      principal: loanPrincipal,
+      interestRate: defaultInterestRate,
       termMonths,
+      purpose,
       status: "pending",
       repaymentSchedule: [],
       loanOfficerId: undefined,
@@ -40,10 +42,11 @@ exports.createLoan = async (req, res) => {
       entityType: "Loan",
       entityId: loan._id,
       details: {
-        customerId,
-        principal,
-        interestRate,
+        customerId: customer._id,
+        principal: loanPrincipal,
+        interestRate: defaultInterestRate,
         termMonths,
+        purpose,
         status: "pending",
       },
     }).catch((err) => console.error("Audit log failed:", err.message));
@@ -54,7 +57,26 @@ exports.createLoan = async (req, res) => {
   }
 };
 
-// --- GET ALL LOANS ---
+exports.getMyLoans = async (req, res) => {
+  try {
+    const customer = await Customer.findOne({ user: req.user._id });
+    if (!customer) {
+      return res.status(404).json({ status: "fail", message: "Customer profile not found." });
+    }
+
+    const loans = await Loan.find({ customerId: customer._id }).sort({ createdAt: -1 });
+
+    res.status(200).json({
+      status: "success",
+      results: loans.length,
+      data: loans,
+    });
+  } catch (err) {
+    res.status(500).json({ status: "error", message: err.message });
+  }
+};
+
+
 exports.getAllLoans = async (req, res) => {
   try {
     const loans = await Loan.find()
@@ -79,7 +101,7 @@ exports.getAllLoans = async (req, res) => {
   }
 };
 
-// --- GET SINGLE LOAN ---
+
 exports.getLoan = async (req, res) => {
   try {
     const loan = await Loan.findById(req.params.id)
@@ -103,10 +125,9 @@ exports.getLoan = async (req, res) => {
   }
 };
 
-// --- UPDATE LOAN (Metadata/Terms only) ---
+
 exports.updateLoan = async (req, res) => {
   try {
-    // Prevent client from mutating status, repaymentSchedule, or officer via general update
     delete req.body.status;
     delete req.body.repaymentSchedule;
     delete req.body.loanOfficerId;
@@ -134,7 +155,7 @@ exports.updateLoan = async (req, res) => {
   }
 };
 
-// --- DELETE LOAN ---
+
 exports.deleteLoan = async (req, res) => {
   try {
     const loan = await Loan.findByIdAndDelete(req.params.id);
@@ -157,7 +178,7 @@ exports.deleteLoan = async (req, res) => {
   }
 };
 
-// --- UPDATE STATUS & SERVER-SIDE AMORTIZATION ---
+
 exports.updateStatus = async (req, res) => {
   try {
     const { status } = req.body;
@@ -178,10 +199,9 @@ exports.updateStatus = async (req, res) => {
     const previousStatus = loan.status;
     loan.status = status;
 
-    // Delegate math calculation to loanService when approved
     if (status === "approved") {
       loan.decidedAt = new Date();
-      loan.loanOfficerId = req.employee._id;
+      loan.loanOfficerId = req.employee?._id || req.user._id;
       loan.repaymentSchedule = generateAmortizationSchedule(
         Number(loan.principal),
         Number(loan.interestRate),

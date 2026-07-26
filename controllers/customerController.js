@@ -32,7 +32,7 @@ exports.createCustomer = async (req, res) => {
         message: "An Customer already exists.",
       });
     }
-    // 1. Create base User document
+
     const newUser = await User.create({
       firstName,
       lastName,
@@ -42,7 +42,7 @@ exports.createCustomer = async (req, res) => {
       role: "customer",
     });
 
-    // 2. Create Customer
+    
     const newCustomer = await Customer.create({
       user: newUser._id,
       nationalId,
@@ -73,7 +73,7 @@ exports.getAllCustomers = async (req, res) => {
     const customers = await Customer.find()
       .populate({
         path: "user",
-        select: "firstName lastName userName email role", // Exclude password!
+        select: "firstName lastName userName email role", // exclude password
       })
       .populate({
         path: "branchId",
@@ -94,7 +94,7 @@ exports.getCustomer = async (req, res) => {
     const customer = await Customer.findById(req.params.id)
       .populate({
         path: "user",
-        select: "firstName lastName userName email role", // Exclude password!
+        select: "firstName lastName userName email role", // Exclude password
       })
       .populate({
         path: "branchId",
@@ -113,15 +113,46 @@ exports.getCustomer = async (req, res) => {
 };
 exports.updateCustomer = async (req, res) => {
   try {
-    const customer = await Customer.findByIdAndUpdate(req.params.id, req.body, {
+    // If param ID is missing (like in /me), fallback to req.customer or find by user ID
+    let targetId = req.params.id;
+
+    if (!targetId) {
+      const customer = await Customer.findOne({ user: req.user._id });
+      if (!customer) {
+        return res.status(404).json({ status: "fail", message: "Customer profile not found" });
+      }
+      targetId = customer._id;
+    }
+
+    const updatedCustomer = await Customer.findByIdAndUpdate(targetId, req.body, {
       new: true,
       runValidators: true,
-    });
+    }).populate("user", "firstName lastName userName email role");
+
+    res.status(200).json({ status: "success", data: updatedCustomer });
+  } catch (err) {
+    res.status(500).json({ status: "error", message: err.message });
+  }
+};
+exports.getMyProfile = async (req, res) => {
+  try {
+    const customer = await Customer.findOne({ user: req.user._id })
+      .populate({
+        path: "user",
+        select: "firstName lastName userName email role",
+      })
+      .populate({
+        path: "branchId",
+        select: "name code address",
+      });
+
     if (!customer) {
-      return res
-        .status(404)
-        .json({ status: "fail", message: "Customer not found" });
+      return res.status(404).json({
+        status: "fail",
+        message: "Customer profile not found for this user.",
+      });
     }
+
     res.status(200).json({ status: "success", data: customer });
   } catch (err) {
     res.status(500).json({ status: "error", message: err.message });

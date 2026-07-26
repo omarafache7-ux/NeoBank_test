@@ -109,11 +109,11 @@ exports.createCard = async (req, res) => {
   }
 };
 
-//(Staff / Admin Only) ---
+// (Staff / Admin Only)
 exports.getAllCards = async (req, res) => {
   try {
     const cards = await Card.find()
-      .populate("accountId", "accountNumber currency status")
+      .populate("account", "accountNumber currency status") // Fixed field name
       .populate("customerId", "firstName lastName email phone")
       .sort({ createdAt: -1 });
 
@@ -127,11 +127,48 @@ exports.getAllCards = async (req, res) => {
   }
 };
 
+exports.getCard = async (req, res) => {
+  try {
+    const card = await Card.findById(req.params.id)
+      .populate("account", "accountNumber currency status") 
+      .populate("customerId", "firstName lastName email phone");
+
+    if (!card) {
+      return res.status(404).json({ status: "fail", message: "Card not found" });
+    }
+
+    const customerId = req.customer?._id || req.user?.customerId;
+
+    if (
+      req.user.role === "customer" &&
+      card.customerId._id.toString() !== customerId?.toString()
+    ) {
+      return res.status(403).json({
+        status: "fail",
+        message: "You do not have permission to view this card.",
+      });
+    }
+
+    res.status(200).json({ status: "success", data: card });
+  } catch (err) {
+    res.status(500).json({ status: "error", message: err.message });
+  }
+};
+
 
 exports.getMyCards = async (req, res) => {
   try {
-    const cards = await Card.find({ customerId: req.customer._id })
-      .populate("accountId", "accountNumber currency status")
+    const customerId = req.customer?._id || req.user?.customerId || req.user?._id;
+
+    if (!customerId) {
+      return res.status(400).json({
+        status: "fail",
+        message: "Customer identification not found on request.",
+      });
+    }
+
+    const cards = await Card.find({ customerId })
+      .populate("account", "accountNumber currency status") 
       .sort({ createdAt: -1 });
 
     res.status(200).json({
@@ -140,6 +177,7 @@ exports.getMyCards = async (req, res) => {
       data: cards,
     });
   } catch (err) {
+    console.error("Error in getMyCards:", err);
     res.status(500).json({ status: "error", message: err.message });
   }
 };

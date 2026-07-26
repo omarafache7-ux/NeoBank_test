@@ -194,7 +194,6 @@ exports.updateStatus = async (req, res) => {
     const previousStatus = alert.status;
     alert.status = status;
 
-    // Automatically set the reviewer to the logged-in user when transitioning out of "open"
     if (status !== "open" && !alert.reviewedBy) {
       alert.reviewedBy = req.user._id;
     }

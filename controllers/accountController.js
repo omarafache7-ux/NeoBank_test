@@ -59,7 +59,7 @@ exports.createAccount = async (req, res) => {
   try {
     const {
       customer: customerInput, // Can be customer _id, nationalId, or phone
-      branch: branchInput,     // Can be branch _id or branch code (e.g., "BR001")
+      branch: branchInput,     // Can be branch _id or branch code ("BR001")
       type,
       currency,
       balance,
@@ -73,7 +73,7 @@ exports.createAccount = async (req, res) => {
       });
     }
 
-    // 2. Resolve Customer (by ObjectId or nationalId/phone)
+    
     let customerDoc;
     if (mongoose.Types.ObjectId.isValid(customerInput)) {
       customerDoc = await Customer.findById(customerInput);
@@ -90,7 +90,7 @@ exports.createAccount = async (req, res) => {
       });
     }
 
-    // 3. Resolve Branch (by ObjectId or branch code)
+    
     let branchDoc;
     if (mongoose.Types.ObjectId.isValid(branchInput)) {
       branchDoc = await Branch.findById(branchInput);
@@ -105,7 +105,7 @@ exports.createAccount = async (req, res) => {
       });
     }
 
-    // 4. Check if account already exists for this customer (with same type/currency if needed)
+    
     const existingAccount = await Account.findOne({ customer: customerDoc._id });
     if (existingAccount) {
       return res.status(400).json({
@@ -114,13 +114,13 @@ exports.createAccount = async (req, res) => {
       });
     }
 
-    // 5. Format Balance
+  
     const initialBalance = balance !== undefined ? balance : "0.00";
     const decimalBalance = mongoose.Types.Decimal128.fromString(
       Number(initialBalance).toFixed(2)
     );
 
-    // 6. Create Account Document
+   
     const account = await Account.create({
       accountNumber: generateReferenceNumber(),
       customer: customerDoc._id,
@@ -145,7 +145,7 @@ exports.createAccount = async (req, res) => {
       },
     }).catch((err) => console.error("Audit log failed:", err.message));
 
-    // 8. Populate Full Customer & Branch details for Response
+   
     const populatedAccount = await Account.findById(account._id)
       .populate({
         path: "customer",
@@ -387,6 +387,48 @@ exports.withdraw = async (req, res) => {
   } catch (err) {
     await session.abortTransaction();
     session.endSession();
+    res.status(500).json({ status: "error", message: err.message });
+  }
+};
+
+exports.getAccountsOpenedToday = async (req, res) => {
+  try {
+    const startOfDay = new Date();
+    startOfDay.setHours(0, 0, 0, 0);
+
+    const endOfDay = new Date();
+    endOfDay.setHours(23, 59, 59, 999);
+
+    const count = await Account.countDocuments({
+      createdAt: {
+        $gte: startOfDay,
+        $lte: endOfDay
+      }
+    });
+
+    res.json({ count });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+exports.getAccountTransactions = async (req, res) => {
+  try {
+    const { accountId } = req.params;
+
+    const transactions = await Transaction.find({
+      $or: [{ fromAccountId: accountId }, { toAccountId: accountId }]
+    })
+      .populate({ path: "fromAccountId", select: "accountNumber currency balance status" })
+      .populate({ path: "toAccountId", select: "accountNumber currency balance status" })
+      .sort({ createdAt: -1 });
+
+    res.status(200).json({
+      status: "success",
+      results: transactions.length,
+      data: transactions,
+    });
+  } catch (err) {
     res.status(500).json({ status: "error", message: err.message });
   }
 };

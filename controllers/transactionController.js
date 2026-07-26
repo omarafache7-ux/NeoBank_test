@@ -9,7 +9,7 @@ const generateReferenceNumber = () => {
   return "TXN-" + Date.now() + "-" + Math.floor(1000 + Math.random() * 9000);
 };
 
-// --- CREATE TRANSACTION (ATOMIC BALANCE ADJUSTMENT & BUSINESS RULES) ---
+
 exports.createTransaction = async (req, res) => {
   const session = await mongoose.startSession();
   session.startTransaction();
@@ -49,7 +49,7 @@ exports.createTransaction = async (req, res) => {
     let sourceAccount = null;
     let targetAccount = null;
 
-    // 2. Validate Source Account (Withdrawals & Transfers)
+   
     if (type === "withdrawal" || type === "transfer") {
       if (!fromAccountId) {
         await session.abortTransaction();
@@ -67,7 +67,7 @@ exports.createTransaction = async (req, res) => {
         return res.status(404).json({ status: "fail", message: "Source account not found." });
       }
 
-      // Business Rule: Frozen/Inactive accounts cannot transact
+      
       if (sourceAccount.status !== "active") {
         await session.abortTransaction();
         session.endSession();
@@ -77,7 +77,7 @@ exports.createTransaction = async (req, res) => {
         });
       }
 
-      // Business Rule: Customers cannot transfer/withdraw more than their balance
+  
       const currentBalance = Number(sourceAccount.balance);
       if (currentBalance < numericAmount) {
         await session.abortTransaction();
@@ -89,7 +89,7 @@ exports.createTransaction = async (req, res) => {
       }
     }
 
-    // 3. Validate Target Account (Deposits & Transfers)
+   
     if (type === "deposit" || type === "transfer") {
       if (!toAccountId) {
         await session.abortTransaction();
@@ -107,7 +107,7 @@ exports.createTransaction = async (req, res) => {
         return res.status(404).json({ status: "fail", message: "Target account not found." });
       }
 
-      // Business Rule: Cannot deposit into a frozen or closed account
+     
       if (targetAccount.status !== "active") {
         await session.abortTransaction();
         session.endSession();
@@ -118,8 +118,7 @@ exports.createTransaction = async (req, res) => {
       }
     }
 
-    // 4. Business Rule: Beneficiary must be approved — mandatory for every transfer,
-    //    not just ones that happen to include beneficiaryAccountNumber
+   
     if (type === 'transfer') {
       const { beneficiaryAccountNumber } = req.body;
       if (!beneficiaryAccountNumber) {
@@ -139,12 +138,10 @@ exports.createTransaction = async (req, res) => {
       }
     }
 
-    // 5. Business Rule: high-value transfers need a second approval before completing
     const settings = await SystemSettings.findOne().session(session);
     const needsApproval = type === 'transfer' && numericAmount > (settings ? Number(settings.transactionApprovalThreshold) : Infinity);
 
-    // 6. Only touch balances if it doesn't need approval — an approval-pending
-    //    transaction shouldn't move money until someone signs off on it
+   
     if (!needsApproval) {
       if (sourceAccount) {
         sourceAccount.balance = mongoose.Types.Decimal128.fromString(
@@ -160,7 +157,7 @@ exports.createTransaction = async (req, res) => {
       }
     }
 
-    // 7. Create Transaction Record
+   
     const refNum = referenceNumber || generateReferenceNumber();
     const [newTransaction] = await Transaction.create(
       [
@@ -179,7 +176,6 @@ exports.createTransaction = async (req, res) => {
       { session }
     );
 
-    // Commit all changes atomically
     await session.commitTransaction();
     session.endSession();
 
@@ -217,7 +213,7 @@ exports.createTransaction = async (req, res) => {
   }
 };
 
-// --- GET ALL TRANSACTIONS ---
+
 exports.getAllTransactions = async (req, res) => {
   try {
     const transactions = await Transaction.find()
@@ -253,7 +249,7 @@ exports.getAllTransactions = async (req, res) => {
   }
 };
 
-// --- GET SINGLE TRANSACTION ---
+
 exports.getTransaction = async (req, res) => {
   try {
     const transaction = await Transaction.findById(req.params.id)

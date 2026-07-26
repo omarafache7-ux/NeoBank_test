@@ -2,7 +2,7 @@ const Employee = require("../models/employeeSchema");
 const Branch = require("../models/branchSchema")
 const User = require("../models/userSchema")
 
-// createEmployee can done by the admin and the branch manager
+
 exports.createEmployee = async (req, res) => {
   try {
     const {
@@ -35,9 +35,7 @@ exports.createEmployee = async (req, res) => {
       });
     }
 
-    // NEW: resolve the branch by its human-readable code instead of trusting
-    // a raw ObjectId from the client — this also doubles as validating the
-    // branch actually exists before you ever create the User/Employee.
+
     let branch = null;
     if (branchCode) {
       branch = await Branch.findOne({ code: branchCode });
@@ -48,7 +46,6 @@ exports.createEmployee = async (req, res) => {
       }
     }
 
-    // 1. Create base User document
     const newUser = await User.create({
       firstName,
       lastName,
@@ -58,12 +55,12 @@ exports.createEmployee = async (req, res) => {
       role: "employee",
     });
 
-    // 2. Create Employee profile linked to the newly created User ID
+
     const newEmployee = await Employee.create({
       user: newUser._id,
       employeeId,
       jobTitle,
-      branchId: branch ? branch._id : null,   // store the real _id, resolved above
+      branchId: branch ? branch._id : null,   
       teamId: teamId || null,
     });
 
@@ -89,7 +86,7 @@ exports.getAllEmployees = async (req, res) => {
     const employees = await Employee.find()
       .populate({
         path: "user",
-        select: "firstName lastName userName email role", // Exclude password!
+        select: "firstName lastName userName email role", 
       })
       .populate({
         path: "branchId",
@@ -115,7 +112,7 @@ exports.getEmployee = async (req, res) => {
     const employee = await Employee.findById(req.params.id)
       .populate({
         path: "user",
-        select: "firstName lastName userName email role", // Exclude password!
+        select: "firstName lastName userName email role", 
       })
       .populate({
         path: "branchId",
