@@ -19,7 +19,7 @@ function CustomerBeneficiaries() {
   const [error, setError] = useState('');
   const [successMsg, setSuccessMsg] = useState('');
 
-  // Fallback to localStorage on refresh
+
   const storedUser = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null;
   const user = auth?.user || storedUser;
 
@@ -59,7 +59,7 @@ function CustomerBeneficiaries() {
     }
 
     try {
-      // Matching the double path: /api/beneficiaries/beneficiaries
+
       const response = await axios.get('http://localhost:4000/api/beneficiaries/beneficiaries', {
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -117,7 +117,7 @@ function CustomerBeneficiaries() {
         nickname: nickname.trim() || undefined,
       };
 
-      // Matching double path endpoint: /api/beneficiaries/beneficiaries
+  
       const response = await axios.post(
         'http://localhost:4000/api/beneficiaries/beneficiaries',
         payload,
@@ -134,7 +134,7 @@ function CustomerBeneficiaries() {
       setBankName('');
       setNickname('');
 
-      // Refresh beneficiary list
+
       fetchBeneficiaries();
     } catch (err) {
       setError(
@@ -153,7 +153,7 @@ function CustomerBeneficiaries() {
     setSuccessMsg('');
 
     try {
-      // Matching double path endpoint: /api/beneficiaries/beneficiaries/:id
+
       await axios.delete(`http://localhost:4000/api/beneficiaries/beneficiaries/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });

@@ -15,12 +15,12 @@ function AdminUsers() {
   const [searchQuery, setSearchQuery] = useState('');
   const [roleFilter, setRoleFilter] = useState('all');
 
-  // Modals & Selection
+
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [editUser, setEditUser] = useState(null);
   const [viewUser, setViewUser] = useState(null);
 
-  // Form Initial States
+
   const initialFormState = {
     firstName: '',
     lastName: '',
@@ -41,7 +41,7 @@ function AdminUsers() {
     status: 'active',
   });
 
-  // Dynamic Auth Headers
+
   const getHeaders = useCallback(() => {
     const currentToken = auth?.token || localStorage.getItem('token');
     return {
@@ -51,7 +51,6 @@ function AdminUsers() {
     };
   }, [auth?.token]);
 
-  // Fetch Users — Pointing to /api/auth/get-Allusers based on your authrouter
   const fetchUsers = useCallback(async () => {
     setLoading(true);
     setError('');
@@ -63,7 +62,7 @@ function AdminUsers() {
         return;
       }
 
-      // Route matches index.js (/api/auth) + authrouter (/get-Allusers)
+
       const response = await axios.get(`${API_BASE_URL}/auth/get-Allusers`, getHeaders());
       
       const rawData = response.data;
@@ -92,7 +91,7 @@ function AdminUsers() {
     setEditFormData({ ...editFormData, [e.target.name]: e.target.value });
   };
 
-  // Create User — Route points to signup endpoint or employee creation depending on role
+
   const handleCreateUser = async (e) => {
     e.preventDefault();
     setError('');
@@ -128,7 +127,7 @@ function AdminUsers() {
     });
   };
 
-  // Update User — Routes based on role to match customer/employee routes
+
   const handleUpdateUser = async (e) => {
     e.preventDefault();
     setError('');
@@ -150,7 +149,7 @@ function AdminUsers() {
     }
   };
 
-  // Delete User — Route matches employee router endpoint
+
   const handleDeleteUser = async (userId) => {
     if (!window.confirm('Are you sure you want to delete this user?')) return;
     setError('');
@@ -165,7 +164,7 @@ function AdminUsers() {
     }
   };
 
-  // Filter Logic
+
   const filteredUsers = users.filter((u) => {
     const query = searchQuery.toLowerCase();
     const fullName = `${u.firstName || ''} ${u.lastName || ''}`.toLowerCase();

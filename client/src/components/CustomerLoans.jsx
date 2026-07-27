@@ -21,6 +21,7 @@ function CustomerLoans() {
 
   const API_URL = 'http://localhost:4000/api/loans';
 
+  
   const navItems = [
     { label: 'Dashboard', active: true, path: '/customer-dashboard' },
     { label: 'Accounts', active: true, path: '/customer-accounts' },
@@ -34,6 +35,7 @@ function CustomerLoans() {
     { label: 'System Settings', active: false, path: '#' },
   ];
 
+   const userRole =  auth?.role || 'Customer';
   const handleLogout = () => {
     localStorage.removeItem('token');
     if (setAuth) setAuth(null);
@@ -151,7 +153,7 @@ function CustomerLoans() {
               Welcome back, <strong>{auth?.user?.name || 'Customer'}</strong>
             </div>
             <div className="topbar-actions">
-              <span className="badge">Active Session</span>
+              <span className="badge">{userRole}</span>
               <button className="logout-btn" onClick={handleLogout}>
                 Logout
               </button>

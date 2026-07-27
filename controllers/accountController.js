@@ -130,7 +130,7 @@ exports.createAccount = async (req, res) => {
       balance: decimalBalance,
     });
 
-    // 7. Audit Logging
+
     await recordLog({
       actorId: req.user._id,
       action: "account.create",

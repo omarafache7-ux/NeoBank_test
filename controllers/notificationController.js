@@ -1,4 +1,5 @@
 const Notification = require("../models/notificationSchema");
+const User = require('../models/userSchema');
 const { recordLog } = require("../utils/auditLogger");
 
 
@@ -19,9 +20,13 @@ exports.createNotification = async (req, res) => {
         message: "Invalid notification type. Allowed values: transaction, loan, security, system.",
       });
     }
+    const checkUser = await User.findById(userId);
+    if(!checkUser){
+      return res.status(404).json({message:`User does not exist`})
+    }
 
     const newNotification = await Notification.create({
-      userId,
+      user:checkUser._id,
       message,
       type,
       read: read ?? false,

@@ -21,7 +21,7 @@ function CustomerCards() {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
 
-  // Standard Express route path (assuming app.use('/api/cards', cardRoutes))
+
   const API_URL = 'http://localhost:4000/api/cards';
 
   const navItems = [
@@ -36,14 +36,14 @@ function CustomerCards() {
     { label: 'Loan Approvals', active: false, path: '#' },
     { label: 'System Settings', active: false, path: '#' },
   ];
-
+  const userRole =  auth?.role || 'Customer';
   const handleLogout = () => {
     localStorage.removeItem('token');
     if (setAuth) setAuth(null);
     navigate('/login');
   };
 
-  // Fetch accounts to allow selecting which account to issue the card against
+
   const fetchAccounts = async () => {
     const token = auth?.token || localStorage.getItem('token');
     if (!token) return;
@@ -77,7 +77,7 @@ function CustomerCards() {
         headers: { Authorization: `Bearer ${token}` },
       });
 
-      // Safely extract array from backend response envelope
+
       const rawData = response?.data?.data || response?.data?.cards || response?.data || [];
       setCards(Array.isArray(rawData) ? rawData : []);
       setError('');
@@ -115,7 +115,6 @@ function CustomerCards() {
     const token = auth?.token || localStorage.getItem('token');
 
     try {
-      // Backend createCard expects account, type, and last4
       const response = await axios.post(
         API_URL,
         {
@@ -225,7 +224,7 @@ function CustomerCards() {
               Welcome back, <strong>{auth?.user?.firstName || auth?.user?.name || 'Customer'}</strong>
             </div>
             <div className="topbar-actions">
-              <span className="badge">Active Session</span>
+              <span className="badge">{userRole}</span>
               <button className="logout-btn" onClick={handleLogout}>
                 Logout
               </button>

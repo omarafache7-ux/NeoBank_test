@@ -15,18 +15,18 @@ function CustomerAccounts() {
   const [logLoading, setLogLoading] = useState(false);
   const [error, setError] = useState('');
 
-  // Fallback to localStorage on refresh
+
   const storedUser = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null;
   const user = auth?.user || storedUser;
 
-  // Extract name matching Mongoose schema fields
+
   const userName = user?.firstName && user?.lastName 
     ? `${user.firstName} ${user.lastName}` 
     : user?.firstName || user?.userName || 'Customer';
 
   const userRole = user?.role || auth?.role || 'Customer';
 
-  // Helper function to safely convert Mongoose Decimal128 or numbers to display numbers
+
   const parseBalance = (balance) => {
     if (balance === null || balance === undefined) return 0;
     if (typeof balance === 'object' && balance.$numberDecimal) {
@@ -35,7 +35,7 @@ function CustomerAccounts() {
     return parseFloat(balance) || 0;
   };
 
-  // Helper to format details object into a clean readable string
+
   const formatLogDetails = (details) => {
     if (!details) return '-';
     if (typeof details === 'string') return details;
@@ -45,7 +45,7 @@ function CustomerAccounts() {
     return JSON.stringify(details);
   };
 
-  // Navigation items matching your customer routing structure
+
   const navItems = [
     { label: 'Dashboard', active: true, path: '/customer-dashboard' },
     { label: 'Accounts', active: true, path: '/customer-accounts' },
@@ -66,7 +66,7 @@ function CustomerAccounts() {
     navigate('/login');
   };
 
-  // Fetch all accounts belonging to the customer
+
   useEffect(() => {
     const fetchAccounts = async () => {
       const token = auth?.token || localStorage.getItem('token');
@@ -83,19 +83,12 @@ function CustomerAccounts() {
         });
 
         const resData = response?.data;
-        let accountList = [];
-
-        if (Array.isArray(resData)) {
-          accountList = resData;
-        } else if (Array.isArray(resData?.data?.accounts)) {
-          accountList = resData.data.accounts;
-        } else if (Array.isArray(resData?.accounts)) {
-          accountList = resData.accounts;
-        } else if (Array.isArray(resData?.data)) {
-          accountList = resData.data;
-        } else if (resData && typeof resData === 'object') {
-          accountList = [resData];
-        }
+        let accountList = 
+       (Array.isArray(resData) ? resData : null) ??
+       resData?.data?.accounts ??
+        resData?.accounts ??
+       resData?.data ??
+      (resData && typeof resData === 'object' ? [resData] : []);
 
         setAccounts(accountList);
         if (accountList.length > 0) {
@@ -114,7 +107,7 @@ function CustomerAccounts() {
     fetchAccounts();
   }, [auth?.token]);
 
-  // Fetch Audit Logs when selected account changes
+
   useEffect(() => {
     if (!selectedAccount) return;
 

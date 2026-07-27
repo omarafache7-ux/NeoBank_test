@@ -21,6 +21,7 @@ function CustomerNotifications() {
   // Handles either app.use('/api/notifications', router) or app.use('/api', router)
   const API_URL = 'http://localhost:4000/api/notifications';
 
+   const userRole =  auth?.role || 'Customer';
   const navItems = [
     { label: 'Dashboard', active: true, path: '/customer-dashboard' },
     { label: 'Accounts', active: true, path: '/customer-accounts' },
@@ -212,7 +213,7 @@ function CustomerNotifications() {
               Welcome back, <strong>{auth?.user?.firstName || auth?.user?.name || 'Customer'}</strong>
             </div>
             <div className="topbar-actions">
-              <span className="badge">Active Session</span>
+              <span className="badge">{userRole}</span>
               <button className="logout-btn" onClick={handleLogout}>
                 Logout
               </button>

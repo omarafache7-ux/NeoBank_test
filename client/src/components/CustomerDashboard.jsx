@@ -13,18 +13,18 @@ function CustomerDashboard() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
-  // Fallback to localStorage on refresh
+  
   const storedUser = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null;
   const user = auth?.user || storedUser;
 
-  // Extract name matching Mongoose schema fields
+  
   const userName = user?.firstName && user?.lastName 
     ? `${user.firstName} ${user.lastName}` 
     : user?.firstName || user?.userName || 'Customer';
 
   const userRole = user?.role || auth?.role || 'Customer';
 
-  // Helper function to safely convert Mongoose Decimal128 or numbers to display numbers
+  // Helper function to safely convert Mongoose Decimal128
   const parseBalance = (balance) => {
     if (balance === null || balance === undefined) return 0;
     if (typeof balance === 'object' && balance.$numberDecimal) {
@@ -33,17 +33,16 @@ function CustomerDashboard() {
     return parseFloat(balance) || 0;
   };
 
-  // Compute Total Balance across all fetched accounts
   const totalBalanceNumber = accounts.reduce((sum, acc) => sum + parseBalance(acc.balance), 0);
   const formattedTotalBalance = new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD',
   }).format(totalBalanceNumber);
 
-  // Compute unread notifications count
+
   const unreadCount = notifications.filter((notif) => !notif.isRead && !notif.read).length;
 
-  // Navigation items matching layout design
+  // Navigation items
   const navItems = [
     { label: 'Dashboard', active: true, path: '/customer-dashboard' },
     { label: 'Accounts', active: true, path: '/customer-accounts' },
@@ -77,46 +76,34 @@ function CustomerDashboard() {
       const headers = { Authorization: `Bearer ${token}` };
 
       try {
-        // Fetch accounts and notifications in parallel
+       
         const [accountsRes, notificationsRes] = await Promise.allSettled([
           axios.get('http://localhost:4000/api/accounts/mine', { headers }),
           axios.get('http://localhost:4000/api/notifications/mine', { headers }),
         ]);
 
-        // Process Accounts Response
         if (accountsRes.status === 'fulfilled') {
           const resData = accountsRes.value?.data;
-          let accountList = [];
-
-          if (Array.isArray(resData)) {
-            accountList = resData;
-          } else if (Array.isArray(resData?.data?.accounts)) {
-            accountList = resData.data.accounts;
-          } else if (Array.isArray(resData?.accounts)) {
-            accountList = resData.accounts;
-          } else if (Array.isArray(resData?.data)) {
-            accountList = resData.data;
-          } else if (resData && typeof resData === 'object') {
-            accountList = [resData];
-          }
+          let accountList = 
+         (Array.isArray(resData) ? resData : null) ??
+          resData?.data?.accounts ??
+          resData?.accounts ??
+          resData?.data ??
+         (resData && typeof resData === 'object' ? [resData] : []);
 
           setAccounts(accountList);
         } else {
           console.error('Accounts fetch error:', accountsRes.reason);
         }
 
-        // Process Notifications Response
+
         if (notificationsRes.status === 'fulfilled') {
           const notifData = notificationsRes.value?.data;
-          let notifList = [];
-
-          if (Array.isArray(notifData)) {
-            notifList = notifData;
-          } else if (Array.isArray(notifData?.notifications)) {
-            notifList = notifData.notifications;
-          } else if (Array.isArray(notifData?.data)) {
-            notifList = notifData.data;
-          }
+          const notifList = 
+          (Array.isArray(notifData) ? notifData : null) ??
+          notifData?.notifications ??
+           notifData?.data ??
+           [];
 
           setNotifications(notifList);
         } else {
@@ -173,7 +160,7 @@ function CustomerDashboard() {
           {/* Page Header */}
           <div className="page-title">Welcome back, {userName}!</div>
           <div className="page-sub">
-            Accounts, transfers, loans and cards — everything scoped to your own customer profile.
+            Accounts, transfers, loans and cards everything scoped to your own customer profile.
           </div>
 
           {/* Conditional Alerts / Loading State */}

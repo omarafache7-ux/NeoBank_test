@@ -13,6 +13,7 @@ const transactionSchema = new Schema(
     },
     fromAccountId: { type: Schema.Types.ObjectId, ref: "Account" },
     toAccountId: { type: Schema.Types.ObjectId, ref: "Account" },
+    //best used for currency and for preventing floating points
     amount: { type: Schema.Types.Decimal128, required: true, min: 0.01 },
     currency: { type: String, required: true },
     status: {

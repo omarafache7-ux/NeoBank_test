@@ -1,7 +1,7 @@
 const User = require("../models/userSchema");
 const Customer = require("../models/customerSchema");
 
-// restricted to admin and teller
+
 exports.createCustomer = async (req, res) => {
   try {
     const {

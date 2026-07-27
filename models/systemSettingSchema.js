@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-// SystemSettings singleton: the app only ever reads/writes the one document in this collection
+// SystemSettings: the app only ever reads/writes the one document in this collection
 const systemSettingsSchema = new Schema(
   {
     defaultInterestRate: { type: Number, required: true, default: 5.0 },

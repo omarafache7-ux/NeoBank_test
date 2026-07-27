@@ -29,12 +29,12 @@ const initialState = {
 const SignUp = () => {
   const navigate = useNavigate();
   const { auth, setAuth } = useAuth();
-  const [role, setRole] = useState('customer'); // 1. Added role state
-  const [formData, setFormData] = useState(initialState); // 2. Renamed form -> formData
+  const [role, setRole] = useState('customer'); 
+  const [formData, setFormData] = useState(initialState); 
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [loading, setLoading] = useState(false);
-//   const navigate = useNavigate();
+
 
   const handleChange = (e) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -194,7 +194,7 @@ const SignUp = () => {
                 </div>
                 <div className="input-group">
                   <label>Street</label>
-                  <input name="city" value={formData.street} onChange={handleChange} required />
+                  <input name="street" value={formData.street} onChange={handleChange} required />
                 </div>
               </div>
             </div>
