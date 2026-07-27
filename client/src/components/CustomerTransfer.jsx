@@ -127,11 +127,11 @@ function CustomerTransfer() {
     const token = auth?.token || localStorage.getItem('token');
 
     try {
-      // Find currency of selected account or default to USD
+ 
       const selectedAccount = accounts.find((a) => (a._id || a.id) === fromAccountId);
       const currency = selectedAccount?.currency || 'USD';
 
-      // Matches controller expectations: type, fromAccountId, toAccountId, beneficiaryAccountNumber, amount, currency
+
       const payload = {
         type: 'transfer',
         fromAccountId,
@@ -159,7 +159,7 @@ function CustomerTransfer() {
       setAmount('');
       setDescription('');
 
-      // Refresh account balances
+  
       const refreshRes = await axios.get('http://localhost:4000/api/accounts/mine', {
         headers: { Authorization: `Bearer ${token}` },
       });
